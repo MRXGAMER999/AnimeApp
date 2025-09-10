@@ -8,6 +8,7 @@ import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import com.example.animeapp.presentaion.screens.splash.SplashScreen
+import com.example.animeapp.presentaion.screens.welcome.WelcomeScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -41,14 +42,18 @@ fun NavigationRoot(
                     NavEntry(
                         key = key,
                     ) {
-                        SplashScreen()
+                        SplashScreen(
+                            onNavigateToWelcome = {
+                                backStack.add(WelcomeScreenKey)
+                            }
+                        )
                     }
                 }
                 is WelcomeScreenKey -> {
                     NavEntry(
                         key = key,
                     ) {
-
+                        WelcomeScreen()
                     }
                 }
                 is HomeScreenKey -> {

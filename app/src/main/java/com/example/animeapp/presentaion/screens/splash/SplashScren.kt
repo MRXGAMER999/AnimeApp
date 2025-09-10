@@ -1,64 +1,70 @@
 package com.example.animeapp.presentaion.screens.splash
 
 import android.window.SplashScreen
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import com.example.animeapp.R
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.animeapp.ui.theme.DarkBlue
-import com.example.animeapp.ui.theme.DarkIndigo
-import com.example.animeapp.ui.theme.DarkNavy
-import com.example.animeapp.ui.theme.LightBlue
-import com.example.animeapp.ui.theme.LightPurple
-import com.example.animeapp.ui.theme.MediumBlue
-import com.example.animeapp.ui.theme.Purple40
-import com.example.animeapp.ui.theme.Purple80
+import com.example.animeapp.ui.theme.getThemeBasedGradient
 
 @Composable
-fun SplashScreen(){
-    Splash()
-}
-
-
-@Composable
-fun Splash(){
-    if (isSystemInDarkTheme()){
-        Box(modifier = Modifier
-            .background(Brush.verticalGradient(listOf(DarkNavy, DarkIndigo)))
-            .fillMaxSize(),
-            contentAlignment = Alignment.Center) {
-            Image(
-                painter = painterResource(id = R.drawable.logo),
-                contentDescription = "Splash logo"
+fun SplashScreen(
+    onNavigateToWelcome: () -> Unit = {}
+){
+    val degrees = remember { Animatable(0f) }
+    
+    LaunchedEffect(key1 = true) {
+        degrees.animateTo(
+            targetValue = 720f,
+            animationSpec = tween(
+                durationMillis = 1500,
+                delayMillis = 200
             )
-        }
-    } else{
-        Box(modifier = Modifier
-            .background(Brush.verticalGradient(listOf(DarkBlue, LightBlue)))
-            .fillMaxSize(),
-            contentAlignment = Alignment.Center) {
-            Image(
-                painter = painterResource(id = R.drawable.logo),
-                contentDescription = "Splash logo"
-            )
-        }
+        )
+
+        kotlinx.coroutines.delay(1000)
+        onNavigateToWelcome()
     }
-
+    
+    Splash(degrees = degrees.value)
 }
 
 
-
-@Preview(showSystemUi = true)
 @Composable
-fun SplashPreview(){
-    Splash()
+fun Splash(degrees: Float){
+    Box(modifier = Modifier
+        .background(getThemeBasedGradient())
+        .fillMaxSize(),
+        contentAlignment = Alignment.Center) {
+        Image(
+            modifier = Modifier
+                .rotate(degrees)
+                .alpha(0.9f),
+            painter = painterResource(id = R.drawable.logo),
+            contentDescription = "Splash logo"
+        )
+    }
 }
+
+
+
+//@Preview(showSystemUi = true)
+//@Composable
+//fun SplashPreview(){
+//    Splash(degrees = degrees)
+//}

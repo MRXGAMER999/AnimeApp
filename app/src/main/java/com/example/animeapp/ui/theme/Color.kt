@@ -1,6 +1,14 @@
 package com.example.animeapp.ui.theme
 
+import android.provider.CalendarContract
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.DarkGray
+import androidx.compose.ui.graphics.Color.Companion.LightGray
 
 val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)
@@ -29,3 +37,71 @@ val DarkNavy = Color(0xFF070F2B)
 val DarkIndigo = Color(0xFF1B1A55)
 val SlateBlue = Color(0xFF535C91)
 val LightSlate = Color(0xFF9290C3)
+
+// Theme-based background brushes
+@Composable
+fun getThemeBasedGradient(): Brush {
+    return if (isSystemInDarkTheme()) {
+        Brush.verticalGradient(listOf(DarkNavy, DarkIndigo))
+    } else {
+        Brush.verticalGradient(listOf(DarkBlue, LightBlue))
+    }
+}
+
+// Alternative: More customizable version
+@Composable
+fun getGradientForTheme(
+    darkColors: List<Color> = listOf(DarkNavy, DarkIndigo),
+    lightColors: List<Color> = listOf(DarkBlue, LightBlue)
+): Brush {
+    return if (isSystemInDarkTheme()) {
+        Brush.verticalGradient(darkColors)
+    } else {
+        Brush.verticalGradient(lightColors)
+    }
+}
+
+// Theme-based button colors
+@Composable
+fun getThemeBasedButtonColors(): ButtonColors {
+    return if (isSystemInDarkTheme()) {
+        ButtonDefaults.buttonColors(
+            containerColor = LightSlate,
+            contentColor = DarkNavy,
+            disabledContainerColor = LightSlate.copy(alpha = 0.6f),
+            disabledContentColor = DarkNavy.copy(alpha = 0.6f)
+        )
+    } else {
+        ButtonDefaults.buttonColors(
+            containerColor = DarkBlue,
+            contentColor = Color.White,
+            disabledContainerColor = DarkBlue.copy(alpha = 0.6f),
+            disabledContentColor = Color.White.copy(alpha = 0.6f)
+        )
+    }
+}
+
+// Alternative: More customizable version
+@Composable
+fun getButtonColorsForTheme(
+    darkContainerColor: Color = LightSlate,
+    darkContentColor: Color = DarkNavy,
+    lightContainerColor: Color = DarkBlue,
+    lightContentColor: Color = Color.White
+): ButtonColors {
+    return if (isSystemInDarkTheme()) {
+        ButtonDefaults.buttonColors(
+            containerColor = darkContainerColor,
+            contentColor = darkContentColor,
+            disabledContainerColor = darkContainerColor.copy(alpha = 0.6f),
+            disabledContentColor = darkContentColor.copy(alpha = 0.6f)
+        )
+    } else {
+        ButtonDefaults.buttonColors(
+            containerColor = lightContainerColor,
+            contentColor = lightContentColor,
+            disabledContainerColor = lightContainerColor.copy(alpha = 0.6f),
+            disabledContentColor = lightContentColor.copy(alpha = 0.6f)
+        )
+    }
+}
