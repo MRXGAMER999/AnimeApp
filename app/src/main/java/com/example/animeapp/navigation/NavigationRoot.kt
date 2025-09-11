@@ -1,12 +1,12 @@
 package com.example.animeapp.navigation
 
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
+import com.example.animeapp.presentaion.screens.home.HomeScreen
 import com.example.animeapp.presentaion.screens.splash.SplashScreen
 import com.example.animeapp.presentaion.screens.welcome.WelcomeScreen
 import kotlinx.serialization.Serializable
@@ -53,14 +53,16 @@ fun NavigationRoot(
                     NavEntry(
                         key = key,
                     ) {
-                        WelcomeScreen()
+                        WelcomeScreen(){
+                            backStack.add(HomeScreenKey)
+                        }
                     }
                 }
                 is HomeScreenKey -> {
                     NavEntry(
                         key = key,
                     ) {
-
+                        HomeScreen()
                     }
                 }
                 is DetailsScreenKey -> {

@@ -2,9 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.hilt.android)
     alias(libs.plugins.kotlin.serialization)
-    kotlin("kapt")
 }
 
 android {
@@ -67,11 +65,12 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.paging)
     annotationProcessor(libs.androidx.room.compiler)
-    kapt(libs.androidx.room.compiler)
 
-    // Hilt dependencies
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    // Koin dependencies
+    implementation(platform(libs.koin.bom))
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose)
 
     // Kotlin Serialization
     implementation(libs.kotlinx.serialization.json)

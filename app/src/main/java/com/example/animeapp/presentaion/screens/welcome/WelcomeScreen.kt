@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import com.example.animeapp.ui.theme.AnimeAppTheme
 import com.example.animeapp.R
 import com.example.animeapp.domain.model.OnBoardingPage
+import org.koin.androidx.compose.koinViewModel
 import com.example.animeapp.ui.theme.EXTRA_LARGE_PADDING
 import com.example.animeapp.ui.theme.MEDIUM_PADDING
 import com.example.animeapp.ui.theme.getThemeBasedGradient
@@ -44,7 +45,8 @@ import com.example.animeapp.util.Constants.LAST_ON_BOARDING_PAGE
 import com.example.animeapp.util.Constants.ON_BOARDING_PAGE_COUNT
 
 @Composable
-fun WelcomeScreen(){
+fun WelcomeScreen(onNavigateToHome: () -> Unit){
+    val welcomeViewModel: WelcomeViewModel = koinViewModel()
     val pages = listOf(
         OnBoardingPage.First,
         OnBoardingPage.Second,
@@ -88,7 +90,8 @@ fun WelcomeScreen(){
              modifier = Modifier.height(80.dp), // Fixed height to prevent UI shifting
              pagerState = pagerState
          ) {
-
+             welcomeViewModel.saveOnBoardingState(completed = true)
+             onNavigateToHome()
          }
 
     }

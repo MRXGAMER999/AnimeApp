@@ -5,7 +5,7 @@ import com.example.animeapp.data.repository.Repository
 class SaveOnBoardingUseCase(
     private val repository: Repository
 ) {
-    suspend fun invoke(completed: Boolean) {
+    suspend operator fun invoke(completed: Boolean) {
         repository.saveOnBoardingState(completed = completed)
     }
 }
