@@ -44,7 +44,12 @@ fun NavigationRoot(
                     ) {
                         SplashScreen(
                             onNavigateToWelcome = {
+                                backStack.remove(SplashScreenKey)
                                 backStack.add(WelcomeScreenKey)
+                            },
+                            onNavigateToHome = {
+                                backStack.remove(SplashScreenKey)
+                                backStack.add(HomeScreenKey)
                             }
                         )
                     }
@@ -54,6 +59,7 @@ fun NavigationRoot(
                         key = key,
                     ) {
                         WelcomeScreen(){
+                            backStack.remove(WelcomeScreenKey)
                             backStack.add(HomeScreenKey)
                         }
                     }

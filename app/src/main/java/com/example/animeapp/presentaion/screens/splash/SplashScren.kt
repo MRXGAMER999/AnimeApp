@@ -1,31 +1,32 @@
 package com.example.animeapp.presentaion.screens.splash
 
-import android.window.SplashScreen
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import com.example.animeapp.R
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.animeapp.ui.theme.getThemeBasedGradient
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SplashScreen(
-    onNavigateToWelcome: () -> Unit = {}
+    onNavigateToWelcome: () -> Unit = {},
+    onNavigateToHome: () -> Unit = {}
 ){
+    val splashViewModel : SplashViewModel = koinViewModel()
+    val onBoardingCompleted by splashViewModel.onBoardingCompleted.collectAsState()
     val degrees = remember { Animatable(0f) }
     
     LaunchedEffect(key1 = true) {
@@ -37,8 +38,13 @@ fun SplashScreen(
             )
         )
 
+
         kotlinx.coroutines.delay(1000)
-        onNavigateToWelcome()
+        if (onBoardingCompleted) {
+            onNavigateToHome()
+        } else {
+            onNavigateToWelcome()
+        }
     }
     
     Splash(degrees = degrees.value)
