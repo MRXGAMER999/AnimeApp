@@ -20,7 +20,6 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,15 +36,11 @@ import androidx.compose.ui.unit.dp
 import com.example.animeapp.ui.theme.AnimeAppTheme
 import com.example.animeapp.R
 import com.example.animeapp.domain.model.OnBoardingPage
-import com.example.animeapp.ui.theme.DarkIndigo
-import com.example.animeapp.ui.theme.DarkNavy
 import com.example.animeapp.ui.theme.EXTRA_LARGE_PADDING
-import com.example.animeapp.ui.theme.LightPurple
-import com.example.animeapp.ui.theme.LightSlate
 import com.example.animeapp.ui.theme.MEDIUM_PADDING
-import com.example.animeapp.ui.theme.SMALL_PADDING
 import com.example.animeapp.ui.theme.getThemeBasedGradient
 import com.example.animeapp.ui.theme.getThemeBasedButtonColors
+import com.example.animeapp.util.Constants.LAST_ON_BOARDING_PAGE
 import com.example.animeapp.util.Constants.ON_BOARDING_PAGE_COUNT
 
 @Composable
@@ -151,7 +146,7 @@ fun PagerScreen(onBoardingPage: OnBoardingPage){
      ) {
          AnimatedVisibility(
              modifier = Modifier.fillMaxWidth(),
-             visible = pagerState.currentPage == 2
+             visible = pagerState.currentPage == LAST_ON_BOARDING_PAGE
          ) {
              Button(
                  onClick = onClick,
