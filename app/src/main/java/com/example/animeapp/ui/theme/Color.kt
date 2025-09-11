@@ -4,6 +4,9 @@ import android.provider.CalendarContract
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -44,7 +47,7 @@ fun getThemeBasedGradient(): Brush {
     return if (isSystemInDarkTheme()) {
         Brush.verticalGradient(listOf(DarkNavy, DarkIndigo))
     } else {
-        Brush.verticalGradient(listOf(DarkBlue, LightBlue))
+        Brush.verticalGradient(listOf(LightBlue,DarkBlue ))
     }
 }
 
@@ -105,3 +108,26 @@ fun getButtonColorsForTheme(
         )
     }
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun getThemeBasedTopAppBarColors(): TopAppBarColors {
+    return if (isSystemInDarkTheme()) {
+        TopAppBarDefaults.topAppBarColors(
+            containerColor = DarkIndigo.copy(alpha = 0.9f),
+            titleContentColor = Color.White,
+            actionIconContentColor = LightSlate,
+            navigationIconContentColor = Color.White,
+            scrolledContainerColor = DarkNavy.copy(alpha = 0.95f)
+        )
+    } else {
+        TopAppBarDefaults.topAppBarColors(
+            containerColor = LightPurple.copy(alpha = 0.3f),
+            titleContentColor = Color.White,
+            actionIconContentColor = Color.White.copy(alpha = 0.8f),
+            navigationIconContentColor = Color.White,
+            scrolledContainerColor = MediumBlue.copy(alpha = 0.95f)
+        )
+    }
+}
+
