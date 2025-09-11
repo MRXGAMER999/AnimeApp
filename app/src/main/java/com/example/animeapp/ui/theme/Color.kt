@@ -5,6 +5,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -115,7 +116,7 @@ fun getThemeBasedTopAppBarColors(): TopAppBarColors {
     return if (isSystemInDarkTheme()) {
         TopAppBarDefaults.topAppBarColors(
             containerColor = DarkIndigo.copy(alpha = 0.9f),
-            titleContentColor = Color.White,
+            titleContentColor = MaterialTheme.colorScheme.onSurface,
             actionIconContentColor = LightSlate,
             navigationIconContentColor = Color.White,
             scrolledContainerColor = DarkNavy.copy(alpha = 0.95f)
@@ -123,7 +124,7 @@ fun getThemeBasedTopAppBarColors(): TopAppBarColors {
     } else {
         TopAppBarDefaults.topAppBarColors(
             containerColor = LightPurple.copy(alpha = 0.3f),
-            titleContentColor = Color.White,
+            titleContentColor = MaterialTheme.colorScheme.onSurface,
             actionIconContentColor = Color.White.copy(alpha = 0.8f),
             navigationIconContentColor = Color.White,
             scrolledContainerColor = MediumBlue.copy(alpha = 0.95f)

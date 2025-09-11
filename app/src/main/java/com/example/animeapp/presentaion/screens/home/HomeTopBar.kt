@@ -3,6 +3,7 @@ package com.example.animeapp.presentaion.screens.home
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -12,6 +13,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.animeapp.ui.theme.getThemeBasedTopAppBarColors
 
@@ -32,10 +34,17 @@ fun HomeTopBar() {
             IconButton(onClick = { }) {
                 Icon(
                     modifier = Modifier.size(32.dp),
-                    imageVector = Icons.Default.Search,
-                    contentDescription = "Search"
+                    imageVector = Icons.Outlined.Search,
+                    contentDescription = "Search",
+                    tint = MaterialTheme.colorScheme.onSurface
                 )
             }
         }
     )
+}
+
+@Composable
+@Preview()
+fun HomeTopBarPreview() {
+    HomeTopBar()
 }
