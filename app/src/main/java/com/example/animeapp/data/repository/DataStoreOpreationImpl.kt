@@ -1,4 +1,4 @@
-package com.example.animeapp.data.pref
+package com.example.animeapp.data.repository
 
 import android.content.Context
 import androidx.datastore.core.DataStore

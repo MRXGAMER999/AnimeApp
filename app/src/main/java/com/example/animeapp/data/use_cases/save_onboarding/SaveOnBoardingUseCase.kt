@@ -1,0 +1,11 @@
+package com.example.animeapp.data.use_cases.save_onboarding
+
+import com.example.animeapp.data.repository.Repository
+
+class SaveOnBoardingUseCase(
+    private val repository: Repository
+) {
+    suspend fun invoke(completed: Boolean) {
+        repository.saveOnBoardingState(completed = completed)
+    }
+}
