@@ -78,9 +78,9 @@ dependencies {
 
     //RetroFit
     implementation (libs.retrofit)
-    implementation (libs.converter.gson)
+    implementation(libs.kotlinx.serialization.converter)
 
-    testImplementation(libs.junit)
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
