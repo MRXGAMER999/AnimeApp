@@ -42,7 +42,9 @@ fun HomeScreen(){
         ) { paddingValues ->
             Column(
                 modifier = Modifier.padding(paddingValues)
-            ) {  }
+            ) {
+
+            }
         }
     }
 
