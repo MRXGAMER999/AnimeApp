@@ -5,7 +5,7 @@ import com.example.animeapp.data.repository.Repository
 import com.example.animeapp.data.use_cases.UseCases
 import com.example.animeapp.data.use_cases.read_onborading.ReadOnBoardingUseCase
 import com.example.animeapp.data.use_cases.save_onboarding.SaveOnBoardingUseCase
-import com.example.animeapp.domain.model.DataStoreOperations
+import com.example.animeapp.domain.repository.DataStoreOperations
 import org.koin.dsl.module
 
 val repositoryModule = module {
@@ -14,7 +14,8 @@ val repositoryModule = module {
     }
     
     single { 
-        Repository(dataStore = get()) 
+        Repository(dataStore = get(),
+            remote = get())
     }
     
     single { 

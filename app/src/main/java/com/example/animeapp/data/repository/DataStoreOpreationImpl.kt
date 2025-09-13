@@ -8,7 +8,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStore
-import com.example.animeapp.domain.model.DataStoreOperations
+import com.example.animeapp.domain.repository.DataStoreOperations
 import com.example.animeapp.util.Constants.PREFERENCES_KEY
 import com.example.animeapp.util.Constants.PREFERENCES_NAME
 import kotlinx.coroutines.flow.Flow

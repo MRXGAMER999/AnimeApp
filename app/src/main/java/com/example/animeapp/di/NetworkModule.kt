@@ -1,6 +1,8 @@
 package com.example.animeapp.di
 
 import com.example.animeapp.data.remote.AnimeApi
+import com.example.animeapp.data.repository.RemoteDataSourceImpl
+import com.example.animeapp.domain.repository.RemoteDataSource
 import com.example.animeapp.util.Constants.BASE_URL
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -30,5 +32,13 @@ val networkModule = module {
     
     single<AnimeApi> {
         get<Retrofit>().create(AnimeApi::class.java)
+    }
+
+    single<RemoteDataSource> {
+        RemoteDataSourceImpl(
+            animeApi = get(),
+            animeDatabase = get()
+        )
+
     }
 }
