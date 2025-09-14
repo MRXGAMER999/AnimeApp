@@ -22,12 +22,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.animeapp.ui.theme.getThemeBasedGradient
 import com.example.animeapp.ui.theme.getThemeBasedTopAppBarColors
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(){
+    val homeViewModel: HomeViewModel = koinViewModel()
+    val allHeroes = homeViewModel.getAllHeroes.collectAsLazyPagingItems()
     Box(
         modifier = Modifier
             .fillMaxSize()

@@ -66,6 +66,9 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.paging)
     ksp(libs.androidx.room.compiler)
+    
+    // Paging Compose
+    implementation(libs.androidx.paging.compose)
 
     // Koin dependencies
     implementation(platform(libs.koin.bom))
@@ -76,7 +79,8 @@ dependencies {
     // Kotlin Serialization
     implementation(libs.kotlinx.serialization.json)
 
-
+    //Icons Extended
+    implementation(libs.androidx.compose.material.icons.extended)
     //RetroFit
     implementation (libs.retrofit)
     implementation(libs.kotlinx.serialization.converter)
