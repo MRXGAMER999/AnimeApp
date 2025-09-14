@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -48,7 +49,7 @@ import com.example.animeapp.util.Constants.BASE_URL
 
 @Composable
 fun ListContent(
-    heroes: LazyPagingItems<Hero>,
+    heroes: LazyPagingItems<Hero>
 ) {
     Log.d("ListContent", heroes.loadState.toString())
     LazyColumn(
@@ -64,6 +65,7 @@ fun ListContent(
 }
 
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun HeroItem(hero: Hero){
     val isDarkTheme = isSystemInDarkTheme()
@@ -98,7 +100,7 @@ fun HeroItem(hero: Hero){
             modifier = Modifier
                 .fillMaxHeight(0.4f)
                 .fillMaxWidth(),
-            color = MaterialTheme.colorScheme.surface.copy(0.7f),
+            color = MaterialTheme.colorScheme.surfaceContainerLow.copy(0.5f),
             shape = RoundedCornerShape(
                 bottomStart = LARGE_PADDING,
                 bottomEnd = LARGE_PADDING
@@ -112,15 +114,15 @@ fun HeroItem(hero: Hero){
                 Text(
                     text = hero.name,
                     color = MaterialTheme.colorScheme.onSurface,
-                    style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.headlineMediumEmphasized,
+                    fontWeight = FontWeight.ExtraBold,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
                     text = hero.about,
                     color = MaterialTheme.colorScheme.onSurface,
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodyMediumEmphasized,
                     maxLines = 3,
                     overflow = TextOverflow.Ellipsis
                 )
