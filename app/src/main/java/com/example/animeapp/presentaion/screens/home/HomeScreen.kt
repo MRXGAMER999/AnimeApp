@@ -30,6 +30,7 @@ fun HomeScreen(){
             .fillMaxSize()
             .background(brush = getThemeBasedGradient())
     ){
+
         Scaffold(
             containerColor = Color.Transparent,
             modifier = Modifier
@@ -48,6 +49,8 @@ fun HomeScreen(){
     }
 
 }
+
+
 
 
 

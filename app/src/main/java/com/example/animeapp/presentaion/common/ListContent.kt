@@ -98,7 +98,7 @@ fun HeroItem(hero: Hero){
             modifier = Modifier
                 .fillMaxHeight(0.4f)
                 .fillMaxWidth(),
-            color = MaterialTheme.colorScheme.surfaceVariant.copy(0.5f),
+            color = MaterialTheme.colorScheme.surface.copy(0.7f),
             shape = RoundedCornerShape(
                 bottomStart = LARGE_PADDING,
                 bottomEnd = LARGE_PADDING
@@ -111,7 +111,7 @@ fun HeroItem(hero: Hero){
             ) {
                 Text(
                     text = hero.name,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = MaterialTheme.colorScheme.onSurface,
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
                     maxLines = 1,
