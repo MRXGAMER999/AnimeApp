@@ -28,7 +28,7 @@ import androidx.compose.ui.graphics.drawscope.clipRect
 @Composable
 fun RatingWidget(
     modifier: Modifier = Modifier,
-    rating: Float,
+    rating: Double,
     maxRating: Int = 5,
     showRatingText: Boolean = true
 ) {
@@ -138,7 +138,7 @@ enum class StarState {
 @Composable
 fun SimpleRatingWidget(
     modifier: Modifier = Modifier,
-    rating: Float,
+    rating: Double,
     maxRating: Int = 5,
     starSize: Dp = 24.dp
 ) {
@@ -226,7 +226,7 @@ fun ApiCardRatingPreview() {
 
             // Example API ratings
             RatingWidget(
-                rating = 4.5f,
+                rating = 4.5,
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -234,11 +234,11 @@ fun ApiCardRatingPreview() {
 
             // Different rating values
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                SimpleRatingWidget(rating = 1.0f)
-                SimpleRatingWidget(rating = 2.5f)
-                SimpleRatingWidget(rating = 3.7f)
-                SimpleRatingWidget(rating = 4.2f)
-                SimpleRatingWidget(rating = 5.0f)
+                SimpleRatingWidget(rating = 1.0)
+                SimpleRatingWidget(rating = 2.5)
+                SimpleRatingWidget(rating = 3.7)
+                SimpleRatingWidget(rating = 4.2)
+                SimpleRatingWidget(rating = 5.0)
             }
         }
     }
@@ -263,22 +263,22 @@ fun ApiRatingStatesPreview() {
             )
 
             Text("Perfect Rating (5.0):", style = MaterialTheme.typography.bodyMedium)
-            RatingWidget(rating = 5.0f)
+            RatingWidget(rating = 5.0)
 
             Text("High Rating (4.3):", style = MaterialTheme.typography.bodyMedium)
-            RatingWidget(rating = 4.3f)
+            RatingWidget(rating = 4.3)
 
             Text("Average Rating (3.5):", style = MaterialTheme.typography.bodyMedium)
-            RatingWidget(rating = 3.5f)
+            RatingWidget(rating = 3.5)
 
             Text("Low Rating (2.1):", style = MaterialTheme.typography.bodyMedium)
-            RatingWidget(rating = 2.1f)
+            RatingWidget(rating = 2.1)
 
             Text("Poor Rating (1.2):", style = MaterialTheme.typography.bodyMedium)
-            RatingWidget(rating = 1.2f)
+            RatingWidget(rating = 1.2)
 
             Text("No Rating (0.0):", style = MaterialTheme.typography.bodyMedium)
-            RatingWidget(rating = 0.0f)
+            RatingWidget(rating = 0.0)
         }
     }
 }
@@ -304,7 +304,7 @@ fun ApiCardRatingDarkPreview() {
             )
 
             RatingWidget(
-                rating = 4.7f,
+                rating = 4.7,
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -314,8 +314,8 @@ fun ApiCardRatingDarkPreview() {
                 color = MaterialTheme.colorScheme.onBackground
             )
 
-            SimpleRatingWidget(rating = 3.8f)
-            SimpleRatingWidget(rating = 4.5f)
+            SimpleRatingWidget(rating = 3.8)
+            SimpleRatingWidget(rating = 4.5)
         }
     }
 }

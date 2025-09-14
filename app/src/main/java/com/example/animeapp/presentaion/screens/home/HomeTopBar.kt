@@ -10,6 +10,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -20,9 +22,12 @@ import com.example.animeapp.ui.theme.getThemeBasedTopAppBarColors
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeTopBar() {
+fun HomeTopBar(
+    scrollBehavior: TopAppBarScrollBehavior
+) {
     TopAppBar(
         colors = getThemeBasedTopAppBarColors(),
+        scrollBehavior = scrollBehavior,
         title = {
             Text(
                 text = "Explore",
@@ -43,8 +48,11 @@ fun HomeTopBar() {
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview()
 fun HomeTopBarPreview() {
-    HomeTopBar()
+    HomeTopBar(
+        scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    )
 }

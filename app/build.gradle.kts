@@ -57,6 +57,10 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
     implementation(libs.androidx.compose.material3)
 
+    //Coil
+    implementation(libs.coil.compose)
+    implementation(libs.coil.core)
+
     // DataStore dependencies
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.datastore.core)
@@ -65,10 +69,15 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.paging)
+    implementation(libs.androidx.compose.material)
     ksp(libs.androidx.room.compiler)
     
     // Paging Compose
     implementation(libs.androidx.paging.compose)
+
+    // Coil dependencies
+    implementation(libs.coil.compose)
+    implementation(libs.coil.core)
 
     // Koin dependencies
     implementation(platform(libs.koin.bom))

@@ -13,8 +13,10 @@ composeBom = "2025.09.00"
 navigation3Runtime = "1.0.0-alpha09"
 room = "2.8.0"
 paging-compose = "3.3.6"
+coil = "2.7.0"
 koin-bom = "4.1.1"
 kotlinSerialization = "1.9.0"
+composeMaterial = "1.5.1"
 
 [libraries]
 androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
@@ -44,6 +46,10 @@ androidx-room-testing = { group = "androidx.room", name = "room-testing", versio
 androidx-room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room" }
 androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging-compose" }
 
+# Coil dependencies
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+coil-core = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
+
 # Koin dependencies
 koin-bom = { group = "io.insert-koin", name = "koin-bom", version.ref = "koin-bom" }
 koin-core = { group = "io.insert-koin", name = "koin-core" }
@@ -53,6 +59,7 @@ koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compos
 # Kotlin Serialization dependencies
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerialization" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+androidx-compose-material = { group = "androidx.wear.compose", name = "compose-material", version.ref = "composeMaterial" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
