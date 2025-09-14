@@ -26,7 +26,8 @@ class RemoteDataSourceImpl(
                 pageSize = ITEMS_PER_PAGE,
                 initialLoadSize = ITEMS_PER_PAGE * 3,
                 prefetchDistance = ITEMS_PER_PAGE * 2,
-                enablePlaceholders = false
+                enablePlaceholders = false,
+                maxSize = PagingConfig.MAX_SIZE_UNBOUNDED
             ),
             remoteMediator = HeroRemoteMediator(
                 animeApi = animeApi,

@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -59,14 +60,17 @@ fun ListContent(
     Log.d("ListContent", heroes.loadState.toString())
     LazyColumn(
         contentPadding = PaddingValues(all = SMALL_PADDING),
-        verticalArrangement = Arrangement.spacedBy(SMALL_PADDING)
+        verticalArrangement = Arrangement.spacedBy(SMALL_PADDING),
+
     ) {
+
+
         items(
             count = heroes.itemCount,
             key = heroes.itemKey { it.id }
         ) { index ->
-            heroes[index]?.let {
-                HeroItem(hero = it)
+            heroes[index]?.let { hero ->
+                HeroItem(hero = hero)
             }
         }
     }
