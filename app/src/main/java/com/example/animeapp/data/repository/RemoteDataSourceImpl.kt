@@ -25,7 +25,7 @@ class RemoteDataSourceImpl(
             config = PagingConfig(
                 pageSize = ITEMS_PER_PAGE,
                 initialLoadSize = ITEMS_PER_PAGE * 3,
-                prefetchDistance = ITEMS_PER_PAGE,
+                prefetchDistance = ITEMS_PER_PAGE * 2,
                 enablePlaceholders = false
             ),
             remoteMediator = HeroRemoteMediator(

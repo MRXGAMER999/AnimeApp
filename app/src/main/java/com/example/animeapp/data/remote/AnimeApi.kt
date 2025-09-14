@@ -7,7 +7,7 @@ import retrofit2.http.Query
 interface AnimeApi {
     @GET("/anime/heroes")
     suspend fun getAllHeroes(
-        @Query("page") page: Int = 1
+        @Query("page") page: Int
     ): ApiResponse
 
     @GET("/anime/heroes/search")

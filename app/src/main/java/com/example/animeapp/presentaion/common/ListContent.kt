@@ -25,16 +25,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+
+import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
-import androidx.wear.compose.material.ContentAlpha
 import coil.compose.AsyncImage
 import com.example.animeapp.R
+import androidx.paging.compose.itemKey
+import coil.request.CachePolicy
+import coil.request.ImageRequest
 import com.example.animeapp.domain.model.Hero
 import com.example.animeapp.presentaion.componenets.SimpleRatingWidget
 import com.example.animeapp.ui.theme.AnimeAppTheme
@@ -56,9 +61,12 @@ fun ListContent(
         contentPadding = PaddingValues(all = SMALL_PADDING),
         verticalArrangement = Arrangement.spacedBy(SMALL_PADDING)
     ) {
-        items(heroes.itemCount) { index ->
-            heroes[index]?.let { hero ->
-                HeroItem(hero = hero)
+        items(
+            count = heroes.itemCount,
+            key = heroes.itemKey { it.id }
+        ) { index ->
+            heroes[index]?.let {
+                HeroItem(hero = it)
             }
         }
     }
@@ -88,7 +96,13 @@ fun HeroItem(hero: Hero){
         ) {
             AsyncImage(
                 modifier = Modifier.fillMaxSize(),
-                model = "$BASE_URL${hero.image}",
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data("$BASE_URL${hero.image}")
+                    .memoryCachePolicy(CachePolicy.ENABLED)
+                    .diskCachePolicy(CachePolicy.ENABLED)
+                    .crossfade(300)
+                    .build()
+                ,
                 contentDescription = hero.name,
                 contentScale = ContentScale.Crop,
                 placeholder = painterResource(id = placeholderRes),
