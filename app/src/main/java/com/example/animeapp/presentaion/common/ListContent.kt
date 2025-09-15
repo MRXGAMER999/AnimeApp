@@ -60,20 +60,24 @@ fun ListContent(
     heroes: LazyPagingItems<Hero>
 ) {
     Log.d("ListContent", heroes.loadState.toString())
-    LazyColumn(
-        contentPadding = PaddingValues(all = SMALL_PADDING),
-        verticalArrangement = Arrangement.spacedBy(SMALL_PADDING),
+    val result = handlePagingResult(heroes = heroes)
+    if (result) {
+        LazyColumn(
+            contentPadding = PaddingValues(all = SMALL_PADDING),
+            verticalArrangement = Arrangement.spacedBy(SMALL_PADDING),
 
-    ) {
-        items(
-            count = heroes.itemCount,
-            key = heroes.itemKey { it.id }
-        ) { index ->
-            heroes[index]?.let { hero ->
-                HeroItem(hero = hero)
+            ) {
+            items(
+                count = heroes.itemCount,
+                key = heroes.itemKey { it.id }
+            ) { index ->
+                heroes[index]?.let { hero ->
+                    HeroItem(hero = hero)
+                }
             }
         }
     }
+
 }
 
 @Composable

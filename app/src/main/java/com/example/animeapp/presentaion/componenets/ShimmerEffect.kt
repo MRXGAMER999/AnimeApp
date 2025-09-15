@@ -30,6 +30,7 @@ import com.example.animeapp.ui.theme.ABOUT_PLACEHOLDER_HEIGHT
 import com.example.animeapp.ui.theme.EXTRA_SMALL_PADDING
 import com.example.animeapp.ui.theme.HERO_ITEM_HEIGHT
 import com.example.animeapp.ui.theme.LARGE_PADDING
+import com.example.animeapp.ui.theme.MEDIUM_PADDING
 import com.example.animeapp.ui.theme.NAME_PLACEHOLDER_HEIGHT
 import com.example.animeapp.ui.theme.RATING_PLACEHOLDER_HEIGHT
 import com.example.animeapp.ui.theme.SMALL_PADDING
@@ -54,8 +55,8 @@ fun ShimmerEffect(){
 fun AnimatedShimmerItem() {
     val transition = rememberInfiniteTransition()
     val alpha by transition.animateFloat(
-        initialValue = 1f,
-        targetValue = 0f,
+        initialValue = 0.3f,
+        targetValue = 1f,
         animationSpec = infiniteRepeatable(
             animation = tween(
                 durationMillis = 500,
@@ -70,11 +71,10 @@ fun AnimatedShimmerItem() {
 fun ShimmerItem(alpha: Float){
     Surface(
         modifier = Modifier
-            .alpha(alpha)
             .fillMaxWidth()
             .height(HERO_ITEM_HEIGHT),
         color = if(isSystemInDarkTheme())
-            Color.Black else ShimmerLightGray,
+            Color.Black.copy(0.5f) else ShimmerLightGray,
         shape = RoundedCornerShape(size = LARGE_PADDING)
     ) {
         Column(
@@ -91,7 +91,7 @@ fun ShimmerItem(alpha: Float){
                     ShimmerDarkGray else ShimmerMediumGray,
                 shape = RoundedCornerShape(size = SMALL_PADDING)
             ) { }
-            Spacer(modifier = Modifier.height(SMALL_PADDING))
+            Spacer(modifier = Modifier.height(MEDIUM_PADDING))
             repeat(3){
                 Surface(
                     modifier = Modifier
@@ -104,7 +104,7 @@ fun ShimmerItem(alpha: Float){
                 ) {
 
                 }
-                Spacer(modifier = Modifier.height(EXTRA_SMALL_PADDING))
+                Spacer(modifier = Modifier.height(MEDIUM_PADDING))
             }
             Row(
                 modifier = Modifier

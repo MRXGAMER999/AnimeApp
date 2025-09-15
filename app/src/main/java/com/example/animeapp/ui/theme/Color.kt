@@ -43,9 +43,9 @@ val LightSlate = Color(0xFF9290C3)
 
 
 
-val ShimmerLightGray = Color(0xFFF1F1F1)
-val ShimmerMediumGray = Color(0xFFE3E3E3)
-val ShimmerDarkGray = Color(0xFF1D1D1D)
+val ShimmerLightGray = Color(0xFFF1F1F1).copy(0.5f)
+val ShimmerMediumGray = Color(0xFFE3E3E3).copy(0.5f)
+val ShimmerDarkGray = Color(0xFF1D1D1D).copy(0.5f)
 
 // Theme-based background brushes
 @Composable
