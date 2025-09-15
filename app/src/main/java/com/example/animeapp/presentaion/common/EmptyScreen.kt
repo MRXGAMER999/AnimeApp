@@ -1,0 +1,102 @@
+package com.example.animeapp.presentaion.common
+
+
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.paging.LoadState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.wear.compose.material.ContentAlpha
+import com.example.animeapp.R
+import com.example.animeapp.ui.theme.MEDIUM_PADDING
+import com.example.animeapp.ui.theme.NETWORK_PLACEHOLDER_HEIGHT
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun EmptyScreen(error: LoadState.Error){
+    val message by remember{
+        mutableStateOf(parseErrorMessage(error.toString()))
+    }
+    val icon by remember{
+        mutableStateOf(R.drawable.network_error)
+    }
+    var startAnimation by remember{ mutableStateOf(false)}
+    val alphaAnim by animateFloatAsState(
+        targetValue = if(startAnimation) ContentAlpha.high else 0f,
+        animationSpec = tween(
+            durationMillis = 1000
+        )
+    )
+    LaunchedEffect(key1 = true){
+        startAnimation = true
+    }
+    EmptyContent(alphaAnim = alphaAnim, icon = icon, message = message)
+
+
+}
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun EmptyContent(alphaAnim: Float, icon: Int, message: String){
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ){
+            Icon(
+                modifier = Modifier.size(NETWORK_PLACEHOLDER_HEIGHT)
+                    .padding(MEDIUM_PADDING)
+                    .alpha(alphaAnim),
+                painter = painterResource(id = icon),
+                contentDescription = message,
+                tint = MaterialTheme.colorScheme.onBackground)
+
+            Text(modifier = Modifier
+                .padding(MEDIUM_PADDING)
+                .alpha(alphaAnim),
+                text = message,
+                color = MaterialTheme.colorScheme.onBackground,
+                style = MaterialTheme.typography.headlineLargeEmphasized,
+                fontWeight = MaterialTheme.typography.headlineLargeEmphasized.fontWeight,
+                fontSize = MaterialTheme.typography.headlineLargeEmphasized.fontSize
+            )
+        }
+    }
+}
+
+fun parseErrorMessage(message: String): String{
+    return when{
+        message.contains("SocketTimeoutException") -> {
+            "Server Unavailable"
+        }
+        message.contains("ConnectException") -> {
+            "Internet Unavailable"
+        }
+        else -> {
+            "Unknown Error"
+        }
+    }
+}
+
