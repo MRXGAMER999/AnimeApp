@@ -28,12 +28,14 @@ import androidx.wear.compose.material.ContentAlpha
 import com.example.animeapp.R
 import com.example.animeapp.ui.theme.MEDIUM_PADDING
 import com.example.animeapp.ui.theme.NETWORK_PLACEHOLDER_HEIGHT
+import java.net.ConnectException
+import java.net.SocketTimeoutException
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun EmptyScreen(error: LoadState.Error){
     val message by remember{
-        mutableStateOf(parseErrorMessage(error.toString()))
+        mutableStateOf(parseErrorMessage(error))
     }
     val icon by remember{
         mutableStateOf(R.drawable.network_error)
@@ -55,11 +57,6 @@ fun EmptyScreen(error: LoadState.Error){
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun EmptyContent(alphaAnim: Float, icon: Int, message: String){
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ){
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
@@ -83,15 +80,15 @@ fun EmptyContent(alphaAnim: Float, icon: Int, message: String){
                 fontSize = MaterialTheme.typography.headlineLargeEmphasized.fontSize
             )
         }
-    }
+
 }
 
-fun parseErrorMessage(message: String): String{
-    return when{
-        message.contains("SocketTimeoutException") -> {
+fun parseErrorMessage(error: LoadState.Error): String{
+    return when(error.error){
+        is SocketTimeoutException -> {
             "Server Unavailable"
         }
-        message.contains("ConnectException") -> {
+        is ConnectException -> {
             "Internet Unavailable"
         }
         else -> {
