@@ -35,6 +35,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import coil.compose.AsyncImage
 import com.example.animeapp.R
@@ -42,6 +43,7 @@ import androidx.paging.compose.itemKey
 import coil.request.CachePolicy
 import coil.request.ImageRequest
 import com.example.animeapp.domain.model.Hero
+import com.example.animeapp.presentaion.componenets.ShimmerEffect
 import com.example.animeapp.presentaion.componenets.SimpleRatingWidget
 import com.example.animeapp.ui.theme.AnimeAppTheme
 import com.example.animeapp.ui.theme.HERO_ITEM_HEIGHT
@@ -70,6 +72,30 @@ fun ListContent(
             heroes[index]?.let { hero ->
                 HeroItem(hero = hero)
             }
+        }
+    }
+}
+
+@Composable
+fun handlePagingResult(
+    heroes: LazyPagingItems<Hero>
+): Boolean{
+    heroes.apply {
+        val error = when{
+            loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
+            loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
+            loadState.append is LoadState.Error -> loadState.append as LoadState.Error
+            else -> null
+        }
+        return when{
+            loadState.refresh is LoadState.Loading -> {
+                ShimmerEffect()
+                false
+            }
+            error != null -> {
+                false
+            }
+            else -> true
         }
     }
 }
