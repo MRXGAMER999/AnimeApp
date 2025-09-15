@@ -63,8 +63,6 @@ fun ListContent(
         verticalArrangement = Arrangement.spacedBy(SMALL_PADDING),
 
     ) {
-
-
         items(
             count = heroes.itemCount,
             key = heroes.itemKey { it.id }

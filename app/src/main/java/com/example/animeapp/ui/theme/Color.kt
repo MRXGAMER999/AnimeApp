@@ -41,6 +41,12 @@ val DarkIndigo = Color(0xFF1B1A55)
 val SlateBlue = Color(0xFF535C91)
 val LightSlate = Color(0xFF9290C3)
 
+
+
+val ShimmerLightGray = Color(0xFFF1F1F1)
+val ShimmerMediumGray = Color(0xFFE3E3E3)
+val ShimmerDarkGray = Color(0xFF1D1D1D)
+
 // Theme-based background brushes
 @Composable
 fun getThemeBasedGradient(): Brush {
