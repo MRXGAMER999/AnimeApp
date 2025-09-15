@@ -55,7 +55,7 @@ dependencies {
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
-    implementation("androidx.compose.material3:material3:1.5.0-alpha04")
+    implementation(libs.androidx.compose.material3)
 
     //Material expressive
 

@@ -1,5 +1,6 @@
 [versions]
 agp = "8.13.0"
+material3 = "1.5.0-alpha04"
 materialIconsExtended = "1.7.8"
 pagingRuntime = "3.3.6"
 retrofit = "3.0.0"
@@ -22,6 +23,7 @@ composeMaterial = "1.5.1"
 
 [libraries]
 androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
+androidx-compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-datastore-core = { module = "androidx.datastore:datastore-core", version.ref = "datastorePreferences" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }

@@ -55,8 +55,6 @@ fun EmptyScreen(error: LoadState.Error? = null){
         startAnimation = true
     }
     EmptyContent(alphaAnim = alphaAnim, icon = icon, message = message)
-
-
 }
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -86,6 +84,7 @@ fun EmptyContent(alphaAnim: Float, icon: Int, message: String){
         }
 
 }
+
 
 fun parseErrorMessage(error: LoadState.Error): String{
     return when(error.error){
