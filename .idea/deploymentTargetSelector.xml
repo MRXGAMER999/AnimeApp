@@ -11,6 +11,9 @@
       <SelectionState runConfigName="ShimmerEffectPreviewDark">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
+      <SelectionState runConfigName="SearchScreenPreviewDark">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
     </selectionStates>
   </component>
 </project>

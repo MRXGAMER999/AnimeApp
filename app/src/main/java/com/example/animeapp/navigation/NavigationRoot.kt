@@ -7,6 +7,7 @@ import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import com.example.animeapp.presentaion.screens.home.HomeScreen
+import com.example.animeapp.presentaion.screens.search.SearchScreen
 import com.example.animeapp.presentaion.screens.splash.SplashScreen
 import com.example.animeapp.presentaion.screens.welcome.WelcomeScreen
 import kotlinx.serialization.Serializable
@@ -68,7 +69,10 @@ fun NavigationRoot(
                     NavEntry(
                         key = key,
                     ) {
-                        HomeScreen()
+                        HomeScreen(onNavigateToSearch = {
+                            backStack.remove(HomeScreenKey)
+                            backStack.add(SearchScreenKey)
+                        })
                     }
                 }
                 is DetailsScreenKey -> {
@@ -82,7 +86,12 @@ fun NavigationRoot(
                     NavEntry(
                         key = key,
                     ) {
-
+                        SearchScreen(
+                            onBackToHomeScreen = {
+                                backStack.remove(SearchScreenKey)
+                                backStack.add(HomeScreenKey)
+                            }
+                        )
                     }
                 }
                 else -> error("Unknown key: $key")

@@ -23,7 +23,8 @@ import com.example.animeapp.ui.theme.getThemeBasedTopAppBarColors
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeTopBar(
-    scrollBehavior: TopAppBarScrollBehavior
+    scrollBehavior: TopAppBarScrollBehavior,
+    onSearchClick: () -> Unit = { }
 ) {
     TopAppBar(
         colors = getThemeBasedTopAppBarColors(),
@@ -36,7 +37,9 @@ fun HomeTopBar(
             )
         },
         actions = {
-            IconButton(onClick = { }) {
+            IconButton(onClick = {
+                onSearchClick()
+            }) {
                 Icon(
                     modifier = Modifier.size(32.dp),
                     imageVector = Icons.Outlined.Search,
@@ -53,6 +56,7 @@ fun HomeTopBar(
 @Preview()
 fun HomeTopBarPreview() {
     HomeTopBar(
-        scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+        scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(),
+        { }
     )
 }

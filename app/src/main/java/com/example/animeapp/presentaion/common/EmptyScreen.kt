@@ -33,12 +33,16 @@ import java.net.SocketTimeoutException
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun EmptyScreen(error: LoadState.Error){
-    val message by remember{
-        mutableStateOf(parseErrorMessage(error))
+fun EmptyScreen(error: LoadState.Error? = null){
+    var message by remember{
+        mutableStateOf("Find your Favourite Hero!")
     }
-    val icon by remember{
-        mutableStateOf(R.drawable.network_error)
+    var icon by remember{
+        mutableStateOf(R.drawable.search_hero)
+    }
+    if (error!= null){
+        message = parseErrorMessage(error)
+        icon = R.drawable.network_error
     }
     var startAnimation by remember{ mutableStateOf(false)}
     val alphaAnim by animateFloatAsState(
@@ -75,9 +79,9 @@ fun EmptyContent(alphaAnim: Float, icon: Int, message: String){
                 .alpha(alphaAnim),
                 text = message,
                 color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.headlineLargeEmphasized,
-                fontWeight = MaterialTheme.typography.headlineLargeEmphasized.fontWeight,
-                fontSize = MaterialTheme.typography.headlineLargeEmphasized.fontSize
+                style = MaterialTheme.typography.headlineMediumEmphasized,
+                fontWeight = MaterialTheme.typography.headlineMediumEmphasized.fontWeight,
+                fontSize = MaterialTheme.typography.headlineMediumEmphasized.fontSize
             )
         }
 

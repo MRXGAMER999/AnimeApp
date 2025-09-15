@@ -20,7 +20,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(){
+fun HomeScreen(onNavigateToSearch: () -> Unit = { }){
     val homeViewModel: HomeViewModel = koinViewModel()
     val allHeroes = homeViewModel.getAllHeroes.collectAsLazyPagingItems()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
@@ -36,7 +36,10 @@ fun HomeScreen(){
                 .fillMaxSize()
                 .nestedScroll(scrollBehavior.nestedScrollConnection),
             topBar = {
-                HomeTopBar(scrollBehavior = scrollBehavior)
+                HomeTopBar(scrollBehavior = scrollBehavior,
+                    onSearchClick = {
+                        onNavigateToSearch()
+                    })
             }
         ) { paddingValues ->
             Column(

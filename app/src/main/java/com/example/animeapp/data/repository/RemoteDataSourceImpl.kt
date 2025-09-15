@@ -6,6 +6,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.animeapp.data.local.AnimeDatabase
 import com.example.animeapp.data.paging_source.HeroRemoteMediator
+import com.example.animeapp.data.paging_source.SearchHeroesSource
 import com.example.animeapp.data.remote.AnimeApi
 import com.example.animeapp.domain.model.Hero
 import com.example.animeapp.domain.repository.RemoteDataSource
@@ -37,7 +38,12 @@ class RemoteDataSourceImpl(
         ).flow
     }
 
-    override fun searchHeroes(): Flow<PagingData<Hero>> {
-        TODO("Not yet implemented")
+    override fun searchHeroes(query: String): Flow<PagingData<Hero>> {
+        return Pager(
+            config = PagingConfig(ITEMS_PER_PAGE),
+            pagingSourceFactory = {
+                SearchHeroesSource(animeApi = animeApi, query = query)
+            }
+        ).flow
     }
 }

@@ -6,6 +6,7 @@ import com.example.animeapp.data.use_cases.UseCases
 import com.example.animeapp.data.use_cases.get_all_heroes.GetAllHeroesUseCase
 import com.example.animeapp.data.use_cases.read_onborading.ReadOnBoardingUseCase
 import com.example.animeapp.data.use_cases.save_onboarding.SaveOnBoardingUseCase
+import com.example.animeapp.data.use_cases.search_heroes.SearchHeroesUseCase
 import com.example.animeapp.domain.repository.DataStoreOperations
 import org.koin.dsl.module
 
@@ -23,7 +24,8 @@ val repositoryModule = module {
         UseCases(
             saveOnBoardingUseCase = SaveOnBoardingUseCase(get()),
             readOnBoardingUseCase = ReadOnBoardingUseCase(get()),
-            getAllHeroesUseCase = GetAllHeroesUseCase(get())
+            getAllHeroesUseCase = GetAllHeroesUseCase(get()),
+            searchHeroesUseCase = SearchHeroesUseCase(get())
         )
     }
 }
