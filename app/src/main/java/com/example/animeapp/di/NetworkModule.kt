@@ -39,6 +39,5 @@ val networkModule = module {
             animeApi = get(),
             animeDatabase = get()
         )
-
     }
 }

@@ -9,6 +9,5 @@ class HomeViewModel(
     useCases: UseCases
 ): ViewModel() {
 
-
     val getAllHeroes = useCases.getAllHeroesUseCase()
 }

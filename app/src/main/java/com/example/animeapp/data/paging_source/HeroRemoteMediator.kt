@@ -1,5 +1,6 @@
 package com.example.animeapp.data.paging_source
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -18,7 +19,21 @@ class HeroRemoteMediator (
     private val heroDao = animeDatabase.heroDao()
     private val heroRemoteKeysDao = animeDatabase.heroRemoteKeysDao()
 
-
+    override suspend fun initialize(): InitializeAction {
+        val currentTime = System.currentTimeMillis()
+        val lastUpdated = heroRemoteKeysDao.getRemoteKeys(heroId = 1)?.lastUpdated ?: 0L
+        val cacheTimeout = 5
+        Log.d("RemoteMediator", "Current Time: ${parseMillis(currentTime)}")
+        Log.d("RemoteMediator", "Last Updated Time: ${parseMillis(lastUpdated)}")
+        val diffInMinutes = (currentTime - lastUpdated) / 1000 / 60
+        return if (diffInMinutes.toInt() <= cacheTimeout) {
+            Log.d("RemoteMediator", "UP TO DATE!")
+            InitializeAction.SKIP_INITIAL_REFRESH
+        } else {
+            Log.d("RemoteMediator", "REFRESH!")
+            InitializeAction.LAUNCH_INITIAL_REFRESH
+        }
+    }
 
 
     override suspend fun load(
@@ -31,6 +46,7 @@ class HeroRemoteMediator (
                     val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
                     remoteKeys?.nextPage?.minus(1) ?: 1
                 }
+
                 LoadType.PREPEND -> {
                     val remoteKeys = getRemoteKeyForFirstItem(state)
                     val prevPage = remoteKeys?.prevPage
@@ -39,6 +55,7 @@ class HeroRemoteMediator (
                         )
                     prevPage
                 }
+
                 LoadType.APPEND -> {
                     val remoteKeys = getRemoteKeyForLastItem(state)
                     val nextPage = remoteKeys?.nextPage
@@ -47,7 +64,9 @@ class HeroRemoteMediator (
                         )
                     nextPage
                 }
+
             }
+
             val response = animeApi.getAllHeroes(page = page)
             if (response.heroes.isNotEmpty()) {
                 animeDatabase.withTransaction {
@@ -61,7 +80,8 @@ class HeroRemoteMediator (
                         HeroRemoteKeys(
                             id = hero.id,
                             prevPage = prevPage,
-                            nextPage = nextPage
+                            nextPage = nextPage,
+                            lastUpdated = response.lastUpdated
                         )
                     }
                     heroRemoteKeysDao.addAllRemoteKeys(heroRemoteKeys = keys)
@@ -97,6 +117,11 @@ class HeroRemoteMediator (
             ?.let { hero ->
                 heroRemoteKeysDao.getRemoteKeys(heroId = hero.id)
             }
+    }
+    private fun parseMillis(millis: Long): String {
+        val date = java.util.Date(millis)
+        val format = java.text.SimpleDateFormat("HH:mm", java.util.Locale.ROOT)
+        return format.format(date)
     }
 }
 
