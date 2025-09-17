@@ -23,6 +23,7 @@ import com.example.animeapp.ui.theme.getThemeBasedGradient
 @Composable
 fun SearchScreen(
     onBackToHomeScreen: () -> Unit = { },
+    onHeroClick: (Int) -> Unit = { },
     viewModel: SearchViewModel = koinViewModel()
 ){
     val heroes = viewModel.searchedHeroes.collectAsLazyPagingItems()
@@ -54,7 +55,9 @@ fun SearchScreen(
             Column(
                 modifier = Modifier.padding(paddingValues)
             ) {
-                ListContent(heroes = heroes)
+                ListContent(heroes = heroes){
+                    onHeroClick(it)
+                }
             }
         }
 
@@ -64,11 +67,11 @@ fun SearchScreen(
 @Preview
 @Composable
 fun SearchScreenPreviewLight(){
-    SearchScreen()
+    SearchScreen(onHeroClick = {})
 }
 
 @Preview(uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun SearchScreenPreviewDark(){
-    SearchScreen()
+    SearchScreen(onHeroClick = {})
 }

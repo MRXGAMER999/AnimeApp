@@ -33,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import androidx.paging.compose.LazyPagingItems
@@ -114,9 +115,9 @@ fun EmptyContent(
                      .padding(MEDIUM_PADDING)
                      .alpha(alphaAnim),
                  text = message,
-                 color = MaterialTheme.colorScheme.onBackground,
+                 color = MaterialTheme.colorScheme.onSurface,
                  style = MaterialTheme.typography.headlineMediumEmphasized,
-                 fontWeight = MaterialTheme.typography.headlineMediumEmphasized.fontWeight,
+                 fontWeight = FontWeight.Bold,
                  fontSize = MaterialTheme.typography.headlineMediumEmphasized.fontSize
              )
          }

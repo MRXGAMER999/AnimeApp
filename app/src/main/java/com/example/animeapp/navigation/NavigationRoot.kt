@@ -6,6 +6,7 @@ import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
+import com.example.animeapp.presentaion.screens.details.DetailsScreen
 import com.example.animeapp.presentaion.screens.home.HomeScreen
 import com.example.animeapp.presentaion.screens.search.SearchScreen
 import com.example.animeapp.presentaion.screens.splash.SplashScreen
@@ -69,17 +70,23 @@ fun NavigationRoot(
                     NavEntry(
                         key = key,
                     ) {
-                        HomeScreen(onNavigateToSearch = {
-                            backStack.remove(HomeScreenKey)
-                            backStack.add(SearchScreenKey)
-                        })
+                        HomeScreen(
+                            onNavigateToSearch = {
+                                backStack.add(SearchScreenKey)
+                            },
+                            onHeroClick = { heroId: Int ->
+                                backStack.add(DetailsScreenKey(heroId))
+                            }
+                        )
                     }
                 }
                 is DetailsScreenKey -> {
                     NavEntry(
                         key = key,
                     ) {
-
+                        DetailsScreen(
+                            heroId = key.heroId
+                        )
                     }
                 }
                 is SearchScreenKey -> {
@@ -90,6 +97,10 @@ fun NavigationRoot(
                             onBackToHomeScreen = {
                                 backStack.remove(SearchScreenKey)
                                 backStack.add(HomeScreenKey)
+                            },
+                            onHeroClick = { heroId: Int ->
+                                backStack.remove(SearchScreenKey)
+                                backStack.add(DetailsScreenKey(heroId))
                             }
                         )
                     }

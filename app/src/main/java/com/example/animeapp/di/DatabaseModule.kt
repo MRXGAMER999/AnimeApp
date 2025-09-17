@@ -17,12 +17,12 @@ val databaseModule = module {
         ).build()
     }
 
-    val localDataSourceModule = module {
+
         single<LocalDataSource>{
             LocalDataSourceImpl(
                 get()
             )
         }
-    }
+
 
 }

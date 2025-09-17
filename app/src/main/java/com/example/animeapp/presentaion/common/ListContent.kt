@@ -65,26 +65,30 @@ import com.example.animeapp.util.Constants.BASE_URL
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ListContent(
-    heroes: LazyPagingItems<Hero>
+    heroes: LazyPagingItems<Hero>,
+    onHeroClick: (Int) -> Unit
 ) {
+
+    val result = handlePagingResult(heroes = heroes)
     Log.d("ListContent", heroes.loadState.toString())
-
-    
-
-
-            LazyColumn(
-                contentPadding = PaddingValues(all = SMALL_PADDING),
-                verticalArrangement = Arrangement.spacedBy(SMALL_PADDING),
-            ) {
-                items(
-                    count = heroes.itemCount,
-                    key = heroes.itemKey { it.id }
-                ) { index ->
-                    heroes[index]?.let { hero ->
-                        HeroItem(hero = hero)
+    if (result){
+        LazyColumn(
+            contentPadding = PaddingValues(all = SMALL_PADDING),
+            verticalArrangement = Arrangement.spacedBy(SMALL_PADDING),
+        ) {
+            items(
+                count = heroes.itemCount,
+                key = heroes.itemKey { it.id }
+            ) { index ->
+                heroes[index]?.let { hero ->
+                    HeroItem(hero = hero){
+                        onHeroClick(hero.id)
                     }
                 }
             }
+        }
+    }
+
 
 
 }
@@ -121,7 +125,8 @@ fun handlePagingResult(
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun HeroItem(hero: Hero){
+fun HeroItem(hero: Hero,
+             onHeroClick: () -> Unit = { }){
     val isDarkTheme = isSystemInDarkTheme()
     val placeholderRes = if (isDarkTheme) {
         R.drawable.placeholder_dark
@@ -133,7 +138,7 @@ fun HeroItem(hero: Hero){
         modifier = Modifier
             .height(HERO_ITEM_HEIGHT)
             .clickable {
-
+                onHeroClick()
             },
         contentAlignment = Alignment.BottomStart
     ){
