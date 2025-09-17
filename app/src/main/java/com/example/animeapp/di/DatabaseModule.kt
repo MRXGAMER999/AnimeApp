@@ -2,6 +2,8 @@ package com.example.animeapp.di
 
 import androidx.room.Room
 import com.example.animeapp.data.local.AnimeDatabase
+import com.example.animeapp.data.repository.LocalDataSourceImpl
+import com.example.animeapp.domain.repository.LocalDataSource
 import com.example.animeapp.util.Constants.ANIME_DATABASE
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
@@ -14,4 +16,13 @@ val databaseModule = module {
             ANIME_DATABASE
         ).build()
     }
+
+    val localDataSourceModule = module {
+        single<LocalDataSource>{
+            LocalDataSourceImpl(
+                get()
+            )
+        }
+    }
+
 }

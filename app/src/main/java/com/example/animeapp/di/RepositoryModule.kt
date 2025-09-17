@@ -3,6 +3,7 @@ package com.example.animeapp.di
 import com.example.animeapp.data.repository.DataStoreOperationsImpl
 import com.example.animeapp.data.repository.Repository
 import com.example.animeapp.data.use_cases.UseCases
+import com.example.animeapp.data.use_cases.getSelectedHero.GetSelectedHeroUseCase
 import com.example.animeapp.data.use_cases.get_all_heroes.GetAllHeroesUseCase
 import com.example.animeapp.data.use_cases.read_onborading.ReadOnBoardingUseCase
 import com.example.animeapp.data.use_cases.save_onboarding.SaveOnBoardingUseCase
@@ -17,7 +18,8 @@ val repositoryModule = module {
     
     single { 
         Repository(dataStore = get(),
-            remote = get())
+            remote = get(),
+            local = get())
     }
     
     single { 
@@ -25,7 +27,8 @@ val repositoryModule = module {
             saveOnBoardingUseCase = SaveOnBoardingUseCase(get()),
             readOnBoardingUseCase = ReadOnBoardingUseCase(get()),
             getAllHeroesUseCase = GetAllHeroesUseCase(get()),
-            searchHeroesUseCase = SearchHeroesUseCase(get())
+            searchHeroesUseCase = SearchHeroesUseCase(get()),
+            getSelectedHeroUseCase = GetSelectedHeroUseCase(get())
         )
     }
 }
