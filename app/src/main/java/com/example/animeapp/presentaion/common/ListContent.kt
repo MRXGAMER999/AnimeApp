@@ -68,14 +68,7 @@ fun ListContent(
     heroes: LazyPagingItems<Hero>
 ) {
     Log.d("ListContent", heroes.loadState.toString())
-    val result = handlePagingResult(heroes = heroes)
-    
-    val refreshState = rememberPullToRefreshState()
-    var isRefreshing by remember { mutableStateOf(false) }
-    
-    LaunchedEffect(heroes.loadState.refresh) {
-        isRefreshing = heroes.loadState.refresh is LoadState.Loading
-    }
+
     
 
 
