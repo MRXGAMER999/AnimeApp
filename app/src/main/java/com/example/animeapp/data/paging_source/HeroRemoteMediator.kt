@@ -23,8 +23,12 @@ class HeroRemoteMediator (
         val currentTime = System.currentTimeMillis()
         val lastUpdated = heroRemoteKeysDao.getRemoteKeys(heroId = 1)?.lastUpdated ?: 0L
         val cacheTimeout = 1440
+
+
         Log.d("RemoteMediator", "Current Time: ${parseMillis(currentTime)}")
         Log.d("RemoteMediator", "Last Updated Time: ${parseMillis(lastUpdated)}")
+
+
         val diffInMinutes = (currentTime - lastUpdated) / 1000 / 60
         return if (diffInMinutes.toInt() <= cacheTimeout) {
             Log.d("RemoteMediator", "UP TO DATE!")

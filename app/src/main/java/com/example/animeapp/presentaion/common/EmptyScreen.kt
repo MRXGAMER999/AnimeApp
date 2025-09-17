@@ -23,6 +23,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.paging.LoadState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,6 +36,8 @@ import com.example.animeapp.R
 import com.example.animeapp.domain.model.Hero
 import com.example.animeapp.ui.theme.MEDIUM_PADDING
 import com.example.animeapp.ui.theme.NETWORK_PLACEHOLDER_HEIGHT
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 
@@ -63,7 +66,12 @@ fun EmptyScreen(
     LaunchedEffect(key1 = true){
         startAnimation = true
     }
-    EmptyContent(alphaAnim = alphaAnim, icon = icon, message = message, heroes = heroes, error = error)
+    EmptyContent(
+        alphaAnim = alphaAnim,
+        icon = icon,
+        message = message,
+        heroes = heroes,
+        error = error)
 }
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -72,77 +80,64 @@ fun EmptyContent(
     icon: Int,
     message: String,
     heroes: LazyPagingItems<Hero>? = null,
-    error: LoadState.Error? = null){
+    error: LoadState.Error? = null,
+   ) {
 
+    val scope = rememberCoroutineScope()
     val refreshState = rememberPullToRefreshState()
     var isRefreshing by remember {
         mutableStateOf(false)
     }
-    
-    LaunchedEffect(heroes?.loadState?.refresh) {
-        isRefreshing = heroes?.loadState?.refresh is LoadState.Loading
-    }
-    
-    if (error != null) {
+     val content = @Composable {
+         Column(
+             modifier = Modifier
+                 .fillMaxSize()
+                 .verticalScroll(rememberScrollState()),
+             verticalArrangement = Arrangement.Center,
+             horizontalAlignment = Alignment.CenterHorizontally
+         ) {
+             Icon(
+                 modifier = Modifier.size(NETWORK_PLACEHOLDER_HEIGHT)
+                     .padding(MEDIUM_PADDING)
+                     .alpha(alphaAnim),
+                 painter = painterResource(id = icon),
+                 contentDescription = message,
+                 tint = MaterialTheme.colorScheme.onBackground
+             )
+
+             Text(
+                 modifier = Modifier
+                     .padding(MEDIUM_PADDING)
+                     .alpha(alphaAnim),
+                 text = message,
+                 color = MaterialTheme.colorScheme.onBackground,
+                 style = MaterialTheme.typography.headlineMediumEmphasized,
+                 fontWeight = MaterialTheme.typography.headlineMediumEmphasized.fontWeight,
+                 fontSize = MaterialTheme.typography.headlineMediumEmphasized.fontSize
+             )
+         }
+     }
+
+
+    if (error != null){
         PullToRefreshBox(
             state = refreshState,
             isRefreshing = isRefreshing,
             onRefresh = {
+                isRefreshing = true
                 heroes?.refresh()
-            },
-
-            ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ){
-                Icon(
-                    modifier = Modifier.size(NETWORK_PLACEHOLDER_HEIGHT)
-                        .padding(MEDIUM_PADDING)
-                        .alpha(alphaAnim),
-                    painter = painterResource(id = icon),
-                    contentDescription = message,
-                    tint = MaterialTheme.colorScheme.onBackground)
-
-                Text(modifier = Modifier
-                    .padding(MEDIUM_PADDING)
-                    .alpha(alphaAnim),
-                    text = message,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    style = MaterialTheme.typography.headlineMediumEmphasized,
-                    fontWeight = MaterialTheme.typography.headlineMediumEmphasized.fontWeight,
-                    fontSize = MaterialTheme.typography.headlineMediumEmphasized.fontSize
-                )
+                isRefreshing = false
+                scope.launch {
+                    refreshState.animateToHidden()
+                }
             }
+        ) {
+            content()
         }
     } else {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ){
-            Icon(
-                modifier = Modifier.size(NETWORK_PLACEHOLDER_HEIGHT)
-                    .padding(MEDIUM_PADDING)
-                    .alpha(alphaAnim),
-                painter = painterResource(id = icon),
-                contentDescription = message,
-                tint = MaterialTheme.colorScheme.onBackground)
-
-            Text(modifier = Modifier
-                .padding(MEDIUM_PADDING)
-                .alpha(alphaAnim),
-                text = message,
-                color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.headlineMediumEmphasized,
-                fontWeight = MaterialTheme.typography.headlineMediumEmphasized.fontWeight,
-                fontSize = MaterialTheme.typography.headlineMediumEmphasized.fontSize
-            )
-        }
+        content()
     }
+
 
 }
 
