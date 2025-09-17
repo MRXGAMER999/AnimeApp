@@ -20,7 +20,14 @@ import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -55,29 +62,44 @@ import com.example.animeapp.util.Constants.BASE_URL
 
 
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ListContent(
     heroes: LazyPagingItems<Hero>
 ) {
     Log.d("ListContent", heroes.loadState.toString())
     val result = handlePagingResult(heroes = heroes)
+    
+    val refreshState = rememberPullToRefreshState()
+    var isRefreshing by remember { mutableStateOf(false) }
+    
+    LaunchedEffect(heroes.loadState.refresh) {
+        isRefreshing = heroes.loadState.refresh is LoadState.Loading
+    }
+    
     if (result) {
-        LazyColumn(
-            contentPadding = PaddingValues(all = SMALL_PADDING),
-            verticalArrangement = Arrangement.spacedBy(SMALL_PADDING),
-
+        PullToRefreshBox(
+            state = refreshState,
+            isRefreshing = isRefreshing,
+            onRefresh = {
+                heroes.refresh()
+            }
+        ) {
+            LazyColumn(
+                contentPadding = PaddingValues(all = SMALL_PADDING),
+                verticalArrangement = Arrangement.spacedBy(SMALL_PADDING),
             ) {
-            items(
-                count = heroes.itemCount,
-                key = heroes.itemKey { it.id }
-            ) { index ->
-                heroes[index]?.let { hero ->
-                    HeroItem(hero = hero)
+                items(
+                    count = heroes.itemCount,
+                    key = heroes.itemKey { it.id }
+                ) { index ->
+                    heroes[index]?.let { hero ->
+                        HeroItem(hero = hero)
+                    }
                 }
             }
         }
     }
-
 }
 
 @Composable
@@ -97,7 +119,7 @@ fun handlePagingResult(
                 false
             }
             error != null -> {
-                EmptyScreen(error = error)
+                EmptyScreen(error = error, heroes = heroes)
                 false
             }
             heroes.itemCount < 1 -> {
