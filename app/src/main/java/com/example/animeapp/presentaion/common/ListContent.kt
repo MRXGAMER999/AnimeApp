@@ -77,14 +77,8 @@ fun ListContent(
         isRefreshing = heroes.loadState.refresh is LoadState.Loading
     }
     
-    if (result) {
-        PullToRefreshBox(
-            state = refreshState,
-            isRefreshing = isRefreshing,
-            onRefresh = {
-                heroes.refresh()
-            }
-        ) {
+
+
             LazyColumn(
                 contentPadding = PaddingValues(all = SMALL_PADDING),
                 verticalArrangement = Arrangement.spacedBy(SMALL_PADDING),
@@ -98,8 +92,8 @@ fun ListContent(
                     }
                 }
             }
-        }
-    }
+
+
 }
 
 @Composable
