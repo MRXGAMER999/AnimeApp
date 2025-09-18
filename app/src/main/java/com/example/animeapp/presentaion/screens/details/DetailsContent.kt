@@ -100,7 +100,8 @@ fun BackgroundContent(
     }
     Box(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
+            .fillMaxHeight(0.85f)
             .background(backgroundColor)
     ) {
         AsyncImage(
