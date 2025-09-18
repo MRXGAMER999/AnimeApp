@@ -20,6 +20,8 @@ fun DetailsScreen(
 
     val selectedHero by detailsViewModel.selectedHero.collectAsState()
 
-    DetailsContent(selectedHero = selectedHero)
+    DetailsContent(selectedHero = selectedHero){
+        onNavigateBack()
+    }
 
 }

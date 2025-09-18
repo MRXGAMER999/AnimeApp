@@ -60,7 +60,7 @@ fun NavigationRoot(
                     NavEntry(
                         key = key,
                     ) {
-                        WelcomeScreen(){
+                        WelcomeScreen {
                             backStack.remove(WelcomeScreenKey)
                             backStack.add(HomeScreenKey)
                         }
