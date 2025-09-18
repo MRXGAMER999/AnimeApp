@@ -1,5 +1,7 @@
 package com.example.animeapp.presentaion.screens.details
 
+import android.util.Log
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -11,9 +13,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.BottomSheetScaffold
+import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
@@ -24,15 +28,24 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.lerp
+import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.ContentAlpha
 import coil.compose.AsyncImage
 import coil.compose.rememberImagePainter
@@ -42,12 +55,18 @@ import com.example.animeapp.R
 import com.example.animeapp.domain.model.Hero
 import com.example.animeapp.presentaion.common.InfoBox
 import com.example.animeapp.presentaion.common.OrderedList
+import com.example.animeapp.ui.theme.EXPANDED_RADIUS_LEVEL
+import com.example.animeapp.ui.theme.EXTRA_LARGE_PADDING
 import com.example.animeapp.ui.theme.INFO_ICON_SIZE
 import com.example.animeapp.ui.theme.LARGE_PADDING
 import com.example.animeapp.ui.theme.MEDIUM_PADDING
 import com.example.animeapp.ui.theme.MIN_SHEET_HEIGHT
 import com.example.animeapp.util.Constants.ABOUT_TEXT_MAX_LINES
 import com.example.animeapp.util.Constants.BASE_URL
+import com.example.animeapp.util.Constants.MIN_BACKGROUND_IMAGE_HEIGHT
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -61,7 +80,18 @@ fun DetailsContent(
         )
     )
 
+    val currentSheetFraction = scaffoldState.currentSheetFraction()
+
+    val radiusAnim by animateDpAsState(
+        targetValue = lerp(EXPANDED_RADIUS_LEVEL, EXTRA_LARGE_PADDING, currentSheetFraction),
+        label = "Radius Animation"
+    )
+
     BottomSheetScaffold(
+        sheetShape = RoundedCornerShape(
+            topStart = radiusAnim,
+            topEnd = radiusAnim
+        ),
         scaffoldState = scaffoldState,
         sheetPeekHeight = MIN_SHEET_HEIGHT,
         sheetDragHandle = null,
@@ -72,6 +102,7 @@ fun DetailsContent(
             selectedHero?.let { hero ->
                 BackgroundContent(
                     heroImage = hero.image,
+                    imageFraction = currentSheetFraction,
                     onCloseClicked = {
                         onCloseClicked()
                     })
@@ -93,6 +124,10 @@ fun BackgroundContent(
     onCloseClicked: () -> Unit
 ){
     val imageUrl = "$BASE_URL$heroImage"
+    // Map sheet fraction [0 (expanded), 1 (hidden)] to image height fraction [MIN, 1]
+    val imageHeightFraction = (
+        MIN_BACKGROUND_IMAGE_HEIGHT + (1f - MIN_BACKGROUND_IMAGE_HEIGHT) * imageFraction
+    ).coerceIn(MIN_BACKGROUND_IMAGE_HEIGHT, 1f)
     val placeholderRes = if (isSystemInDarkTheme()) {
         R.drawable.placeholder_dark
     } else {
@@ -100,14 +135,13 @@ fun BackgroundContent(
     }
     Box(
         modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(0.85f)
+            .fillMaxSize()
             .background(backgroundColor)
     ) {
         AsyncImage(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(fraction = imageFraction)
+                .fillMaxHeight(fraction = imageHeightFraction)
                 .align(Alignment.TopStart),
             model = ImageRequest.Builder(LocalContext.current)
                 .data(imageUrl)
@@ -140,6 +174,32 @@ fun BackgroundContent(
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun BottomSheetScaffoldState.currentSheetFraction(): Float {
+    val configuration = LocalConfiguration.current
+    val density = LocalDensity.current
+    val screenHeightPx = with(density) { configuration.screenHeightDp.dp.toPx() }
+    val peekHeightPx = with(density) { MIN_SHEET_HEIGHT.toPx() }
+    val maxOffset = (screenHeightPx - peekHeightPx).coerceAtLeast(1f)
+
+    val initial = when (bottomSheetState.currentValue) {
+        SheetValue.Expanded -> 0f
+        SheetValue.Hidden -> 1f
+        else -> 0f
+    }
+    val fractionState = remember { mutableFloatStateOf(initial) }
+
+    LaunchedEffect(bottomSheetState, maxOffset) {
+        snapshotFlow { runCatching { bottomSheetState.requireOffset() }.getOrNull() }
+            .filterNotNull()
+            .map { (it / maxOffset).coerceIn(0f, 1f) }
+            .distinctUntilChanged()
+            .collect { fractionState.floatValue = it }
+    }
+
+    return fractionState.floatValue
+}
 
 
 
