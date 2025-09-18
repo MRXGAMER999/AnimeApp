@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,7 +28,7 @@ import com.example.animeapp.ui.theme.SMALL_PADDING
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun InfoBox(
-    icon: ImageVector,
+    icon: Painter,
     iconColor: Color,
     bigText: String,
     smallText: String,
@@ -38,7 +39,7 @@ fun InfoBox(
             modifier = Modifier
                 .padding(end = SMALL_PADDING)
                 .size(INFO_ICON_SIZE),
-            imageVector = icon,
+            painter = icon,
             contentDescription = "Info Box Icon",
             tint = iconColor
         )
@@ -46,14 +47,14 @@ fun InfoBox(
             Text(
                 text = bigText,
                 color = textColor,
-                style = MaterialTheme.typography.headlineMediumEmphasized,
+                style = MaterialTheme.typography.headlineSmallEmphasized,
                 fontWeight = FontWeight.Black
             )
             Text(
                 modifier = Modifier.alpha(ContentAlpha.medium),
                 text = smallText,
                 color = textColor,
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Black
             )
 
@@ -65,7 +66,7 @@ fun InfoBox(
 @Composable
 fun InfoBoxPreview(){
     InfoBox(
-        icon = ImageVector.vectorResource(id = R.drawable.ic_bolt),
+        icon = painterResource(id = R.drawable.ic_bolt),
         iconColor = MaterialTheme.colorScheme.primary,
         bigText = "92",
         smallText = "Power",

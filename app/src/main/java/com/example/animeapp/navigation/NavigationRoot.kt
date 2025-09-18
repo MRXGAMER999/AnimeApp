@@ -85,7 +85,10 @@ fun NavigationRoot(
                         key = key,
                     ) {
                         DetailsScreen(
-                            heroId = key.heroId
+                            heroId = key.heroId,
+                            onNavigateBack = {
+                                backStack.remove(key)
+                            }
                         )
                     }
                 }

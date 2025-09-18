@@ -14,6 +14,7 @@ object Constants {
     const val PREFERENCES_KEY = "on_boarding_completed"
 
     const val ITEMS_PER_PAGE = 10
+    const val ABOUT_TEXT_MAX_LINES = 7
 
 
 

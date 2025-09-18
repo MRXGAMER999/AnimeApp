@@ -27,7 +27,7 @@ fun OrderedList(
             modifier = Modifier.padding(bottom = SMALL_PADDING),
             text = title,
             color = text,
-            style = MaterialTheme.typography.headlineMediumEmphasized,
+            style = MaterialTheme.typography.titleMediumEmphasized,
             fontWeight = FontWeight.Bold
         )
         items.forEachIndexed { index, item ->
@@ -35,7 +35,7 @@ fun OrderedList(
                 modifier = Modifier.alpha(ContentAlpha.medium),
                 text = "${index + 1}. $item",
                 color = text,
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMediumEmphasized
             )
         }
     }
