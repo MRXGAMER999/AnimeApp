@@ -2,8 +2,14 @@ package com.example.animeapp.presentaion.screens.details
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
+import com.example.animeapp.util.Constants.BASE_URL
+import com.example.animeapp.util.PaletteGenerator.convertImageUrlToBitmap
+import com.example.animeapp.util.PaletteGenerator.extractColorsFromBitmap
+import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -19,9 +25,39 @@ fun DetailsScreen(
 
 
     val selectedHero by detailsViewModel.selectedHero.collectAsState()
+    val colorPalette by detailsViewModel.colorPalette
+    val context = LocalContext.current
 
-    DetailsContent(selectedHero = selectedHero){
-        onNavigateBack()
+    if (colorPalette.isNotEmpty()) {
+        DetailsContent(selectedHero = selectedHero,
+            colors = colorPalette,
+                onCloseClicked = {
+                    onNavigateBack()
+                }
+           )
+    } else {
+        if (selectedHero != null) {
+            detailsViewModel.generateColorsPalette()
+        }
     }
 
+    LaunchedEffect(key1 = true) {
+        detailsViewModel.uiEvent.collectLatest { event ->
+            when (event) {
+                is UiEvent.GenerateColorsPalette -> {
+                    val bitmap = convertImageUrlToBitmap(
+                        imageUrl = "$BASE_URL${selectedHero?.image}",
+                        context = context
+                    )
+                    if (bitmap != null) {
+                        detailsViewModel.setColorPalette(
+                            colors = extractColorsFromBitmap(
+                                bitmap = bitmap
+                            )
+                        )
+                    }
+                }
+            }
+        }
+    }
 }
