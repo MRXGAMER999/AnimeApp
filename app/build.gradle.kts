@@ -73,6 +73,7 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.paging)
     implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.palette.ktx)
     ksp(libs.androidx.room.compiler)
     
     // Paging Compose
