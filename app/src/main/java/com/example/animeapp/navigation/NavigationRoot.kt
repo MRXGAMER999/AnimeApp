@@ -99,7 +99,6 @@ fun NavigationRoot(
                         SearchScreen(
                             onBackToHomeScreen = {
                                 backStack.remove(SearchScreenKey)
-                                backStack.add(HomeScreenKey)
                             },
                             onHeroClick = { heroId: Int ->
                                 backStack.add(DetailsScreenKey(heroId))
