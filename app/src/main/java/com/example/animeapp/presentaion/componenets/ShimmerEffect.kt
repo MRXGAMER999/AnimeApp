@@ -27,7 +27,6 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.animeapp.ui.theme.ABOUT_PLACEHOLDER_HEIGHT
-import com.example.animeapp.ui.theme.EXTRA_SMALL_PADDING
 import com.example.animeapp.ui.theme.HERO_ITEM_HEIGHT
 import com.example.animeapp.ui.theme.LARGE_PADDING
 import com.example.animeapp.ui.theme.MEDIUM_PADDING

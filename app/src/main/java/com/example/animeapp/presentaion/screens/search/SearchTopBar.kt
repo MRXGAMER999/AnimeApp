@@ -29,9 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.animeapp.ui.theme.SMALL_PADDING
-import com.example.animeapp.ui.theme.TOP_APP_BAR_HEIGHT
-import com.example.animeapp.ui.theme.getThemeBasedTopAppBarColors
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

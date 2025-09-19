@@ -1,6 +1,7 @@
 package com.example.animeapp.presentaion.screens.search
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,8 +27,12 @@ fun SearchScreen(
     onHeroClick: (Int) -> Unit = { },
     viewModel: SearchViewModel = koinViewModel()
 ){
+
+    BackHandler {
+        onBackToHomeScreen()
+    }
     val heroes = viewModel.searchedHeroes.collectAsLazyPagingItems()
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+
     Box(
         modifier = Modifier
         .fillMaxSize()
