@@ -29,7 +29,7 @@ class HeroRemoteMediator (
         Log.d("RemoteMediator", "Last Updated Time: ${parseMillis(lastUpdated)}")
 
 
-        val diffInMinutes = (currentTime - lastUpdated) / 1000 / 60
+        val diffInMinutes = (currentTime - lastUpdated) / (1000 * 60)
         return if (diffInMinutes.toInt() <= cacheTimeout) {
             Log.d("RemoteMediator", "UP TO DATE!")
             InitializeAction.SKIP_INITIAL_REFRESH

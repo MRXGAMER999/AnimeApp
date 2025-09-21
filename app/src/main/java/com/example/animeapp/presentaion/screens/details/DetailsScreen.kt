@@ -28,17 +28,20 @@ fun DetailsScreen(
     val colorPalette by detailsViewModel.colorPalette
     val context = LocalContext.current
 
-    if (colorPalette.isNotEmpty()) {
-        DetailsContent(selectedHero = selectedHero,
-            colors = colorPalette,
-                onCloseClicked = {
-                    onNavigateBack()
-                }
-           )
-    } else {
-        if (selectedHero != null) {
+    LaunchedEffect(selectedHero) {
+        if (selectedHero != null && colorPalette.isEmpty()) {
             detailsViewModel.generateColorsPalette()
         }
+    }
+
+    if (colorPalette.isNotEmpty()) {
+        DetailsContent(
+            selectedHero = selectedHero,
+            colors = colorPalette,
+            onCloseClicked = {
+                onNavigateBack()
+            }
+        )
     }
 
     LaunchedEffect(key1 = true) {
