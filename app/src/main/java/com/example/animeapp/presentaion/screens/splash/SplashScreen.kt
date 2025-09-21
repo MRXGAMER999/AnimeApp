@@ -39,7 +39,7 @@ fun SplashScreen(
         )
 
 
-        kotlinx.coroutines.delay(1000)
+
         if (onBoardingCompleted) {
             onNavigateToHome()
         } else {
