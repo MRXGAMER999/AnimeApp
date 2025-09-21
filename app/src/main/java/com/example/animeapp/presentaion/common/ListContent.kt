@@ -209,7 +209,8 @@ fun HeroItemPreview() {
                 day = "10th",
                 family = listOf("Minato", "Kushina", "Boruto", "Himawari", "Hinata"),
                 abilities = listOf("Sage Mode", "Shadow Clone", "Rasengan"),
-                natureTypes = listOf("Wind", "Lightning", "Earth", "Water", "Fire")
+                natureTypes = listOf("Wind", "Lightning", "Earth", "Water", "Fire"),
+                category = "Boruto"
             )
         )
     }
@@ -235,7 +236,8 @@ fun MultipleHeroItemsPreview() {
                         day = "10th",
                         family = listOf("Minato", "Kushina"),
                         abilities = listOf("Sage Mode", "Shadow Clone", "Rasengan"),
-                        natureTypes = listOf("Wind", "Lightning")
+                        natureTypes = listOf("Wind", "Lightning"),
+                        category = "Boruto"
                     ),
                     Hero(
                         id = 2,
@@ -248,7 +250,8 @@ fun MultipleHeroItemsPreview() {
                         day = "23rd",
                         family = listOf("Itachi", "Fugaku", "Mikoto"),
                         abilities = listOf("Sharingan", "Rinnegan", "Chidori"),
-                        natureTypes = listOf("Lightning", "Fire")
+                        natureTypes = listOf("Lightning", "Fire"),
+                        category = "Boruto"
                     ),
                     Hero(
                         id = 3,
@@ -261,7 +264,8 @@ fun MultipleHeroItemsPreview() {
                         day = "28th",
                         family = listOf("Kizashi", "Mebuki", "Sarada"),
                         abilities = listOf("Medical Ninjutsu", "Super Strength", "Healing"),
-                        natureTypes = listOf("Earth", "Water")
+                        natureTypes = listOf("Earth", "Water"),
+                        category = "Boruto"
                     )
                 )
                 HeroItem(hero = heroes[index])
@@ -286,7 +290,8 @@ fun HeroItemDarkPreview() {
                 day = "10th",
                 family = listOf("Minato", "Kushina", "Boruto", "Himawari", "Hinata"),
                 abilities = listOf("Sage Mode", "Shadow Clone", "Rasengan"),
-                natureTypes = listOf("Wind", "Lightning", "Earth", "Water", "Fire")
+                natureTypes = listOf("Wind", "Lightning", "Earth", "Water", "Fire"),
+                category = "Boruto"
             )
         )
     }

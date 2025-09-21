@@ -14,7 +14,8 @@ val databaseModule = module {
             androidContext(),
             AnimeDatabase::class.java,
             ANIME_DATABASE
-        ).build()
+        ).fallbackToDestructiveMigration(true)
+            .build()
     }
 
 

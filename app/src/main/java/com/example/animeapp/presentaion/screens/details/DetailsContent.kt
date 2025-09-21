@@ -361,7 +361,8 @@ fun BottomSheetContentPreview(){
             day = "1st",
             family = listOf("Nigga", "Nigga2", "Nigga3"),
             abilities = listOf("Niggas Power", "Niggas Power", "Niggas Power"),
-            natureTypes = listOf("FireGuns", "WaterMelon")
+            natureTypes = listOf("FireGuns", "WaterMelon"),
+            category = "Boruto"
         )
     )
 

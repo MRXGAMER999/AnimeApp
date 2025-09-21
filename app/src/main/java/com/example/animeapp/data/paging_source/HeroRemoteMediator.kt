@@ -14,7 +14,8 @@ import com.example.animeapp.domain.model.HeroRemoteKeys
 @OptIn(ExperimentalPagingApi::class)
 class HeroRemoteMediator (
     private val animeApi: AnimeApi,
-    private val animeDatabase: AnimeDatabase
+    private val animeDatabase: AnimeDatabase,
+    private val category: String?
 ): RemoteMediator<Int, Hero>() {
     private val heroDao = animeDatabase.heroDao()
     private val heroRemoteKeysDao = animeDatabase.heroRemoteKeysDao()
@@ -71,7 +72,7 @@ class HeroRemoteMediator (
 
             }
 
-            val response = animeApi.getAllHeroes(page = page)
+            val response = animeApi.getAllHeroes(page = page, category = category)
             if (response.heroes.isNotEmpty()) {
                 animeDatabase.withTransaction {
                     if (loadType == LoadType.REFRESH) {

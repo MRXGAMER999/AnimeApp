@@ -3,7 +3,9 @@ package com.example.animeapp.presentaion.screens.home
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -41,9 +43,21 @@ fun HomeTopBar(
                 onSearchClick()
             }) {
                 Icon(
-                    modifier = Modifier.size(32.dp),
+                    modifier = Modifier.size(28.dp),
                     imageVector = Icons.Outlined.Search,
                     contentDescription = "Search",
+                    tint = MaterialTheme.colorScheme.onSurface
+                )
+            }
+            IconButton(
+                onClick = {
+
+                }
+            ) {
+                Icon(
+                    modifier = Modifier.size(28.dp),
+                    imageVector = Icons.Outlined.Settings,
+                    contentDescription = "Settings",
                     tint = MaterialTheme.colorScheme.onSurface
                 )
             }

@@ -12,8 +12,8 @@ class Repository(
     private val dataStore: DataStoreOperations,
     private val local: LocalDataSource
 ) {
-     fun getAllHeroes(): Flow<PagingData<Hero>> {
-        return remote.getAllHeroes()
+     fun getAllHeroes(category: String?): Flow<PagingData<Hero>> {
+        return remote.getAllHeroes(category = category)
 
     }
     fun searchHeroes(query: String): Flow<PagingData<Hero>> {

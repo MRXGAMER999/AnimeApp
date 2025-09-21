@@ -20,7 +20,7 @@ class RemoteDataSourceImpl(
 ): RemoteDataSource {
     private val heroDao = animeDatabase.heroDao()
     @OptIn(ExperimentalPagingApi::class)
-    override fun getAllHeroes(): Flow<PagingData<Hero>> {
+    override fun getAllHeroes(category: String?): Flow<PagingData<Hero>> {
         val pagingSourceFactory = { heroDao.getAllHeroes() }
         return Pager(
             config = PagingConfig(
@@ -32,7 +32,8 @@ class RemoteDataSourceImpl(
             ),
             remoteMediator = HeroRemoteMediator(
                 animeApi = animeApi,
-                animeDatabase = animeDatabase
+                animeDatabase = animeDatabase,
+                category = category
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow

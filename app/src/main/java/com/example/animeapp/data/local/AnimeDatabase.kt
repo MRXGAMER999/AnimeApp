@@ -8,7 +8,7 @@ import com.example.animeapp.data.local.dao.HeroRemoteKeysDao
 import com.example.animeapp.domain.model.Hero
 import com.example.animeapp.domain.model.HeroRemoteKeys
 
-@Database(entities = [Hero::class, HeroRemoteKeys::class], version = 1, exportSchema = false)
+@Database(entities = [Hero::class, HeroRemoteKeys::class], version = 2, exportSchema = false)
 @TypeConverters(DatabaseConverter::class)
 abstract class AnimeDatabase : RoomDatabase() {
     abstract fun heroDao(): HeroDao
