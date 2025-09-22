@@ -21,6 +21,7 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(onNavigateToSearch: () -> Unit = { },
+               onNavigateToSettings: () -> Unit = { },
                onHeroClick: (Int) -> Unit ){
     val homeViewModel: HomeViewModel = koinViewModel()
     val allHeroes = homeViewModel.getAllHeroes.collectAsLazyPagingItems()
@@ -41,6 +42,9 @@ fun HomeScreen(onNavigateToSearch: () -> Unit = { },
                 HomeTopBar(scrollBehavior = scrollBehavior,
                     onSearchClick = {
                         onNavigateToSearch()
+                    },
+                    onSettingsClick = {
+                        onNavigateToSettings()
                     })
             }
         ) { paddingValues ->

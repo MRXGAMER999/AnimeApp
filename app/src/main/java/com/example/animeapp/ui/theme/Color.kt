@@ -120,7 +120,7 @@ fun getButtonColorsForTheme(
 fun getThemeBasedTopAppBarColors(): TopAppBarColors {
     return if (isSystemInDarkTheme()) {
         TopAppBarDefaults.topAppBarColors(
-            containerColor = DarkIndigo.copy(alpha = 0.9f),
+            containerColor = Color.Transparent,
             titleContentColor = MaterialTheme.colorScheme.onSurface,
             actionIconContentColor = LightSlate,
             navigationIconContentColor = Color.White,
@@ -128,7 +128,7 @@ fun getThemeBasedTopAppBarColors(): TopAppBarColors {
         )
     } else {
         TopAppBarDefaults.topAppBarColors(
-            containerColor = LightPurple.copy(alpha = 0.3f),
+            containerColor = Color.Transparent,
             titleContentColor = MaterialTheme.colorScheme.onSurface,
             actionIconContentColor = Color.White.copy(alpha = 0.8f),
             navigationIconContentColor = Color.White,

@@ -9,6 +9,7 @@ import androidx.navigation3.ui.NavDisplay
 import com.example.animeapp.presentaion.screens.details.DetailsScreen
 import com.example.animeapp.presentaion.screens.home.HomeScreen
 import com.example.animeapp.presentaion.screens.search.SearchScreen
+import com.example.animeapp.presentaion.screens.settings.SettingsScreen
 import com.example.animeapp.presentaion.screens.splash.SplashScreen
 import com.example.animeapp.presentaion.screens.welcome.WelcomeScreen
 import kotlinx.serialization.Serializable
@@ -27,6 +28,9 @@ data class DetailsScreenKey(val heroId: Int): NavKey
 
 @Serializable
 object SearchScreenKey: NavKey
+
+@Serializable
+object SettingsScreenKey: NavKey
 
 
 @Composable
@@ -76,6 +80,9 @@ fun NavigationRoot(
                             },
                             onHeroClick = { heroId: Int ->
                                 backStack.add(DetailsScreenKey(heroId))
+                            },
+                            onNavigateToSettings = {
+                                backStack.add(SettingsScreenKey)
                             }
                         )
                     }
@@ -104,6 +111,13 @@ fun NavigationRoot(
                                 backStack.add(DetailsScreenKey(heroId))
                             }
                         )
+                    }
+                }
+                is SettingsScreenKey -> {
+                    NavEntry(
+                        key = key,
+                    ) {
+                        SettingsScreen()
                     }
                 }
                 else -> error("Unknown key: $key")

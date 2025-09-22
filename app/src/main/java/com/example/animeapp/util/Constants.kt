@@ -2,7 +2,7 @@ package com.example.animeapp.util
 
 object Constants {
 
-    const val BASE_URL = "http://192.168.1.66:8080/" 
+    const val BASE_URL = "http://192.168.1.66:8080" 
     const val HERO_DATABASE_TABLE = "hero_table"
     const val HERO_REMOTE_KEYS_DATABASE_TABLE = "hero_remote_keys_table"
     const val ANIME_DATABASE = "anime_database"
