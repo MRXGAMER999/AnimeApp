@@ -144,10 +144,10 @@ fun EmptyContent(
             }
             ,
             onRefresh = {
-                isRefreshing = true
-                heroes?.refresh()
-                isRefreshing = false
                 scope.launch {
+                    isRefreshing = true
+                    heroes?.refresh()
+                    isRefreshing = false
                     refreshState.animateToHidden()
                 }
             }

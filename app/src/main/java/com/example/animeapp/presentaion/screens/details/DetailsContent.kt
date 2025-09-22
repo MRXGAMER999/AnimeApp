@@ -353,15 +353,15 @@ fun BottomSheetContentPreview(){
             id = 1,
             name = "Sasuke",
             image = "",
-            about = "He was a fearless Nigga who wanted to be a ninja." +
-                    "He was a fearless Nigga who wanted to be a ninja.",
+            about = "He was a fearless ninja who wanted to be stronger." +
+                    "He was a fearless ninja who wanted to be stronger.",
             rating = 4.5,
             power = 9,
             month = "April",
             day = "1st",
-            family = listOf("Nigga", "Nigga2", "Nigga3"),
-            abilities = listOf("Niggas Power", "Niggas Power", "Niggas Power"),
-            natureTypes = listOf("FireGuns", "WaterMelon"),
+            family = listOf("Itachi", "Fugaku", "Mikoto"),
+            abilities = listOf("Sharingan", "Chidori", "Fire Style"),
+            natureTypes = listOf("Fire", "Lightning"),
             category = "Boruto"
         )
     )
