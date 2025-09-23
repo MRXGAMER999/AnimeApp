@@ -22,11 +22,19 @@ class HeroRemoteMediator (
 
     override suspend fun initialize(): InitializeAction {
         val currentTime = System.currentTimeMillis()
-        // Check for any hero from the current category to determine if we need to refresh
-        if (categories == null || categories.size != 1) {
-            // Multiple or no categories selected: prefer cached data first
+        // If no category or multiple categories selected: ensure data exists for all selected categories
+        if (categories == null) {
+            // No filtering: allow cache-first
             return InitializeAction.SKIP_INITIAL_REFRESH
         }
+        if (categories.size != 1) {
+            // For multiple categories, if any category has no local data, refresh to fetch missing ones
+            val missingAny = categories.any { cat ->
+                heroDao.getFirstHeroIdByCategory(cat) == null
+            }
+            return if (missingAny) InitializeAction.LAUNCH_INITIAL_REFRESH else InitializeAction.SKIP_INITIAL_REFRESH
+        }
+        // Single category freshness policy
         val currentCategory = categories.first()
         val firstHeroId = heroDao.getFirstHeroIdByCategory(currentCategory)
         val lastUpdated = firstHeroId?.let { id ->
@@ -100,7 +108,7 @@ class HeroRemoteMediator (
                 animeDatabase.withTransaction {
                     if (loadType == LoadType.REFRESH) {
                         if (categories == null || categories.size != 1) {
-                            // Multiple categories: clear all and re-seed
+                            // Multiple categories: clear all and re-seed to avoid stale mismatched cache
                             heroRemoteKeysDao.deleteAllRemoteKeys()
                             heroDao.deleteAllHeroes()
                         } else {
@@ -160,4 +168,3 @@ class HeroRemoteMediator (
         return format.format(date)
     }
 }
-

@@ -6,7 +6,6 @@ import com.example.animeapp.data.use_cases.UseCases
 import com.example.animeapp.data.use_cases.getSelectedHero.GetSelectedHeroUseCase
 import com.example.animeapp.data.use_cases.get_all_heroes.GetAllHeroesUseCase
 import com.example.animeapp.data.use_cases.read_onborading.ReadOnBoardingUseCase
-import com.example.animeapp.data.use_cases.read_selected_category.ReadSelectedCategoryUseCase
 import com.example.animeapp.data.use_cases.read_selected_categories.ReadSelectedCategoriesUseCase
 import com.example.animeapp.data.use_cases.save_onboarding.SaveOnBoardingUseCase
 import com.example.animeapp.data.use_cases.save_selected_categories.SaveSelectedCategoriesUseCase
@@ -32,7 +31,6 @@ val repositoryModule = module {
             getAllHeroesUseCase = GetAllHeroesUseCase(get()),
             searchHeroesUseCase = SearchHeroesUseCase(get()),
             getSelectedHeroUseCase = GetSelectedHeroUseCase(get()),
-            readSelectedCategoryUseCase = ReadSelectedCategoryUseCase(get()),
             saveSelectedCategoriesUseCase = SaveSelectedCategoriesUseCase(get()),
             readSelectedCategoriesUseCase = ReadSelectedCategoriesUseCase(get())
         )

@@ -30,13 +30,6 @@ class Repository(
         return dataStore.readOnBoardingState()
     }
 
-    suspend fun saveSelectedCategory(category: String) {
-        dataStore.saveSelectedCategory(category = category)
-    }
-
-    fun readSelectedCategory(): Flow<String> {
-        return dataStore.readSelectedCategory()
-    }
 
     suspend fun saveSelectedCategories(categories: Set<String>) {
         dataStore.saveSelectedCategories(categories = categories)

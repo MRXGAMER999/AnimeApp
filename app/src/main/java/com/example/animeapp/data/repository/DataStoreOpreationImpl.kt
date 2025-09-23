@@ -7,12 +7,12 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
-import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.animeapp.domain.repository.DataStoreOperations
 import com.example.animeapp.util.Constants.PREFERENCES_KEY
 import com.example.animeapp.util.Constants.PREFERENCES_NAME
+import com.example.animeapp.util.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -23,7 +23,6 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = PRE
 class DataStoreOperationsImpl(context: Context): DataStoreOperations {
     private object PreferencesKey {
         val onBoardingKey = booleanPreferencesKey(name = PREFERENCES_KEY)
-        val selectedCategoryKey = stringPreferencesKey(name = "selected_category")
         val selectedCategoriesKey = stringSetPreferencesKey(name = "selected_categories")
     }
     private val dataStore = context.dataStore
@@ -48,27 +47,6 @@ class DataStoreOperationsImpl(context: Context): DataStoreOperations {
             }
     }
 
-    override suspend fun saveSelectedCategory(category: String) {
-        dataStore.edit { preferences ->
-            preferences[PreferencesKey.selectedCategoryKey] = category
-        }
-    }
-
-    override fun readSelectedCategory(): Flow<String> {
-        return dataStore.data
-            .catch { exception ->
-                if (exception is IOException) {
-                    emit(emptyPreferences())
-                } else {
-                    throw exception
-                }
-            }
-            .map { preferences ->
-                val selectedCategory = preferences[PreferencesKey.selectedCategoryKey] ?: "Boruto"
-                selectedCategory
-            }
-    }
-
     override suspend fun saveSelectedCategories(categories: Set<String>) {
         dataStore.edit { preferences ->
             preferences[PreferencesKey.selectedCategoriesKey] = categories
@@ -85,7 +63,8 @@ class DataStoreOperationsImpl(context: Context): DataStoreOperations {
                 }
             }
             .map { preferences ->
-                val selectedCategories = preferences[PreferencesKey.selectedCategoriesKey] ?: setOf("Boruto")
+                val selectedCategories = preferences[PreferencesKey.selectedCategoriesKey]
+                    ?: Constants.DEFAULT_SELECTED_CATEGORIES
                 selectedCategories
             }
     }

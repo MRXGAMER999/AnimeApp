@@ -27,6 +27,7 @@ import com.example.animeapp.presentaion.screens.settings.SettingsViewModel
 import com.example.animeapp.ui.theme.MEDIUM_PADDING
 import com.example.animeapp.ui.theme.getThemeBasedGradient
 import org.koin.androidx.compose.koinViewModel
+import com.example.animeapp.util.Constants
 
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -37,7 +38,7 @@ fun SelectionScreen(
 ) {
     val selectedCategories by settingsViewModel.selectedCategories.collectAsState()
     
-    val availableCategories = listOf("Demon Slayer", "Boruto")
+    val availableCategories = Constants.AVAILABLE_CATEGORIES
 
     Box(
         modifier = Modifier

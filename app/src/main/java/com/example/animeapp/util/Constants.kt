@@ -17,7 +17,14 @@ object Constants {
     const val ITEMS_PER_PAGE = 10
     const val ABOUT_TEXT_MAX_LINES = 7
 
+    // Centralized categories to avoid duplication across UI and logic
+    val AVAILABLE_CATEGORIES: List<String> = listOf(
+        "Boruto",
+        "Demon Slayer"
+    )
 
-
-
+    // Default selected categories when user hasn't chosen yet
+    val DEFAULT_SELECTED_CATEGORIES: Set<String> = setOf(
+        "Boruto"
+    )
 }
