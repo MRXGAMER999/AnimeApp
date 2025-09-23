@@ -117,7 +117,9 @@ fun NavigationRoot(
                     NavEntry(
                         key = key,
                     ) {
-                        SettingsScreen()
+                        SettingsScreen(onNavigateBack = {
+                            backStack.remove(SettingsScreenKey)
+                        })
                     }
                 }
                 else -> error("Unknown key: $key")

@@ -3,6 +3,7 @@ package com.example.animeapp.di
 import com.example.animeapp.presentaion.screens.details.DetailsViewModel
 import com.example.animeapp.presentaion.screens.home.HomeViewModel
 import com.example.animeapp.presentaion.screens.search.SearchViewModel
+import com.example.animeapp.presentaion.screens.settings.SettingsViewModel
 import com.example.animeapp.presentaion.screens.splash.SplashViewModel
 import com.example.animeapp.presentaion.screens.welcome.WelcomeViewModel
 import org.koin.core.module.dsl.viewModel
@@ -13,6 +14,7 @@ val viewModelModule = module {
     viewModel { SplashViewModel(get()) }
     viewModel { HomeViewModel(get()) }
     viewModel { SearchViewModel(get()) }
+    viewModel { SettingsViewModel(get()) }
     viewModel { (heroId: Int) ->
         DetailsViewModel(
             useCases = get(),

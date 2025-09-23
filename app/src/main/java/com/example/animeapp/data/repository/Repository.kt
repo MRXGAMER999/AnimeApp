@@ -29,4 +29,12 @@ class Repository(
     fun readOnBoardingState(): Flow<Boolean> {
         return dataStore.readOnBoardingState()
     }
+
+    suspend fun saveSelectedCategory(category: String) {
+        dataStore.saveSelectedCategory(category = category)
+    }
+
+    fun readSelectedCategory(): Flow<String> {
+        return dataStore.readSelectedCategory()
+    }
 }

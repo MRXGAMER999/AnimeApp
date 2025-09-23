@@ -21,7 +21,13 @@ class RemoteDataSourceImpl(
     private val heroDao = animeDatabase.heroDao()
     @OptIn(ExperimentalPagingApi::class)
     override fun getAllHeroes(category: String?): Flow<PagingData<Hero>> {
-        val pagingSourceFactory = { heroDao.getAllHeroes() }
+        val pagingSourceFactory = { 
+            if (category != null) {
+                heroDao.getAllHeroesByCategory(category)
+            } else {
+                heroDao.getAllHeroes()
+            }
+        }
         return Pager(
             config = PagingConfig(
                 pageSize = ITEMS_PER_PAGE,

@@ -22,16 +22,20 @@ class HeroRemoteMediator (
 
     override suspend fun initialize(): InitializeAction {
         val currentTime = System.currentTimeMillis()
-        val lastUpdated = heroRemoteKeysDao.getRemoteKeys(heroId = 1)?.lastUpdated ?: 0L
+        // Check for any hero from the current category to determine if we need to refresh
+        val currentCategory = category ?: "Boruto"
+        val firstHeroId = heroDao.getFirstHeroIdByCategory(currentCategory)
+        val lastUpdated = firstHeroId?.let { id ->
+            heroRemoteKeysDao.getRemoteKeys(heroId = id)?.lastUpdated
+        } ?: 0L
         val cacheTimeout = 1440
 
-
+        Log.d("RemoteMediator", "Category: $category")
         Log.d("RemoteMediator", "Current Time: ${parseMillis(currentTime)}")
         Log.d("RemoteMediator", "Last Updated Time: ${parseMillis(lastUpdated)}")
 
-
         val diffInMinutes = (currentTime - lastUpdated) / (1000 * 60)
-        return if (diffInMinutes.toInt() <= cacheTimeout) {
+        return if (diffInMinutes.toInt() <= cacheTimeout && firstHeroId != null) {
             Log.d("RemoteMediator", "UP TO DATE!")
             InitializeAction.SKIP_INITIAL_REFRESH
         } else {
@@ -76,8 +80,11 @@ class HeroRemoteMediator (
             if (response.heroes.isNotEmpty()) {
                 animeDatabase.withTransaction {
                     if (loadType == LoadType.REFRESH) {
-                        heroDao.deleteAllHeroes()
-                        heroRemoteKeysDao.deleteAllRemoteKeys()
+                        // Only delete heroes and keys for the current category
+                        val currentCategory = category ?: "Boruto"
+                        val heroIds = heroDao.getHeroesByCategoryList(currentCategory).map { it.id }
+                        heroDao.deleteHeroesByCategory(currentCategory)
+                        heroIds.forEach { id -> heroRemoteKeysDao.deleteRemoteKeys(id) }
                     }
                     val prevPage = response.prevPage
                     val nextPage = response.nextPage

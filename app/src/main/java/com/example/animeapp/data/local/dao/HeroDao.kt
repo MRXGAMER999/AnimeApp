@@ -12,6 +12,14 @@ interface HeroDao {
     @Query("SELECT * FROM hero_table ORDER BY id ASC")
     fun getAllHeroes(): PagingSource<Int, Hero>
 
+    @Query("SELECT * FROM hero_table WHERE category = :category ORDER BY id ASC")
+    fun getAllHeroesByCategory(category: String): PagingSource<Int, Hero>
+
+    @Query("SELECT * FROM hero_table WHERE category = :category ORDER BY id ASC")
+    suspend fun getHeroesByCategoryList(category: String): List<Hero>
+
+    @Query("SELECT id FROM hero_table WHERE category = :category ORDER BY id ASC LIMIT 1")
+    suspend fun getFirstHeroIdByCategory(category: String): Int?
 
     @Query("SELECT * FROM hero_table WHERE id =:heroId")
     suspend fun getSelectedHero(heroId: Int): Hero
@@ -21,5 +29,8 @@ interface HeroDao {
 
     @Query("DELETE FROM hero_table")
     suspend fun deleteAllHeroes()
+
+    @Query("DELETE FROM hero_table WHERE category = :category")
+    suspend fun deleteHeroesByCategory(category: String)
 
 }

@@ -17,4 +17,7 @@ interface HeroRemoteKeysDao {
 
     @Query("DELETE FROM hero_remote_keys_table")
     suspend fun deleteAllRemoteKeys()
+
+    @Query("DELETE FROM hero_remote_keys_table WHERE id = :heroId")
+    suspend fun deleteRemoteKeys(heroId: Int)
 }
