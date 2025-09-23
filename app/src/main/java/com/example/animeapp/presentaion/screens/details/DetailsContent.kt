@@ -179,7 +179,8 @@ fun BackgroundContent(
             error = painterResource(id = placeholderRes)
         )
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth()
+                .padding(top = MEDIUM_PADDING),
             horizontalArrangement = Arrangement.End
         ) {
             IconButton(

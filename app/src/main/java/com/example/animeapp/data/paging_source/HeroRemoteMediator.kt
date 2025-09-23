@@ -15,7 +15,7 @@ import com.example.animeapp.domain.model.HeroRemoteKeys
 class HeroRemoteMediator (
     private val animeApi: AnimeApi,
     private val animeDatabase: AnimeDatabase,
-    private val category: String?
+    private val categories: Set<String>?
 ): RemoteMediator<Int, Hero>() {
     private val heroDao = animeDatabase.heroDao()
     private val heroRemoteKeysDao = animeDatabase.heroRemoteKeysDao()
@@ -23,14 +23,18 @@ class HeroRemoteMediator (
     override suspend fun initialize(): InitializeAction {
         val currentTime = System.currentTimeMillis()
         // Check for any hero from the current category to determine if we need to refresh
-        val currentCategory = category ?: "Boruto"
+        if (categories == null || categories.size != 1) {
+            // Multiple or no categories selected: prefer cached data first
+            return InitializeAction.SKIP_INITIAL_REFRESH
+        }
+        val currentCategory = categories.first()
         val firstHeroId = heroDao.getFirstHeroIdByCategory(currentCategory)
         val lastUpdated = firstHeroId?.let { id ->
             heroRemoteKeysDao.getRemoteKeys(heroId = id)?.lastUpdated
         } ?: 0L
         val cacheTimeout = 1440
 
-        Log.d("RemoteMediator", "Category: $category")
+        Log.d("RemoteMediator", "Category: $categories")
         Log.d("RemoteMediator", "Current Time: ${parseMillis(currentTime)}")
         Log.d("RemoteMediator", "Last Updated Time: ${parseMillis(lastUpdated)}")
 
@@ -76,15 +80,35 @@ class HeroRemoteMediator (
 
             }
 
-            val response = animeApi.getAllHeroes(page = page, category = category)
+            val response = try {
+                if (categories != null && categories.size > 1) {
+                    animeApi.getAllHeroesByCategories(
+                        page = page,
+                        categories = categories.joinToString(",")
+                    )
+                } else {
+                    animeApi.getAllHeroes(
+                        page = page,
+                        category = categories?.firstOrNull()
+                    )
+                }
+            } catch (e: Exception) {
+                // If offline or network error, serve from cache without failing the load
+                return MediatorResult.Success(endOfPaginationReached = true)
+            }
             if (response.heroes.isNotEmpty()) {
                 animeDatabase.withTransaction {
                     if (loadType == LoadType.REFRESH) {
-                        // Only delete heroes and keys for the current category
-                        val currentCategory = category ?: "Boruto"
-                        val heroIds = heroDao.getHeroesByCategoryList(currentCategory).map { it.id }
-                        heroDao.deleteHeroesByCategory(currentCategory)
-                        heroIds.forEach { id -> heroRemoteKeysDao.deleteRemoteKeys(id) }
+                        if (categories == null || categories.size != 1) {
+                            // Multiple categories: clear all and re-seed
+                            heroRemoteKeysDao.deleteAllRemoteKeys()
+                            heroDao.deleteAllHeroes()
+                        } else {
+                            val currentCategory = categories.first()
+                            val heroIds = heroDao.getHeroesByCategoryList(currentCategory).map { it.id }
+                            heroDao.deleteHeroesByCategory(currentCategory)
+                            heroIds.forEach { id -> heroRemoteKeysDao.deleteRemoteKeys(id) }
+                        }
                     }
                     val prevPage = response.prevPage
                     val nextPage = response.nextPage

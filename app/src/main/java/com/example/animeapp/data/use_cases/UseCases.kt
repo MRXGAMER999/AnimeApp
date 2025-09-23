@@ -4,8 +4,9 @@ import com.example.animeapp.data.use_cases.getSelectedHero.GetSelectedHeroUseCas
 import com.example.animeapp.data.use_cases.get_all_heroes.GetAllHeroesUseCase
 import com.example.animeapp.data.use_cases.read_onborading.ReadOnBoardingUseCase
 import com.example.animeapp.data.use_cases.read_selected_category.ReadSelectedCategoryUseCase
+import com.example.animeapp.data.use_cases.read_selected_categories.ReadSelectedCategoriesUseCase
 import com.example.animeapp.data.use_cases.save_onboarding.SaveOnBoardingUseCase
-import com.example.animeapp.data.use_cases.save_selected_category.SaveSelectedCategoryUseCase
+import com.example.animeapp.data.use_cases.save_selected_categories.SaveSelectedCategoriesUseCase
 import com.example.animeapp.data.use_cases.search_heroes.SearchHeroesUseCase
 
 data class UseCases(
@@ -14,6 +15,7 @@ data class UseCases(
     val getAllHeroesUseCase: GetAllHeroesUseCase,
     val searchHeroesUseCase: SearchHeroesUseCase,
     val getSelectedHeroUseCase: GetSelectedHeroUseCase,
-    val saveSelectedCategoryUseCase: SaveSelectedCategoryUseCase,
-    val readSelectedCategoryUseCase: ReadSelectedCategoryUseCase
+    val readSelectedCategoryUseCase: ReadSelectedCategoryUseCase,
+    val saveSelectedCategoriesUseCase: SaveSelectedCategoriesUseCase,
+    val readSelectedCategoriesUseCase: ReadSelectedCategoriesUseCase
 )

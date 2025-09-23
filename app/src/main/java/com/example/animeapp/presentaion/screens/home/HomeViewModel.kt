@@ -21,20 +21,17 @@ class HomeViewModel(
     private val useCases: UseCases
 ): ViewModel() {
     
-    val selectedCategory: StateFlow<String> = useCases.readSelectedCategoryUseCase().stateIn(
+
+    val selectedCategories: StateFlow<Set<String>> = useCases.readSelectedCategoriesUseCase().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
-        initialValue = "Boruto"
+        initialValue = setOf("Boruto", "Demon Slayer")
     )
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val getAllHeroes: Flow<PagingData<Hero>> = selectedCategory.flatMapLatest { category ->
+    val getAllHeroes: Flow<PagingData<Hero>> = selectedCategories.flatMapLatest { category ->
         useCases.getAllHeroesUseCase(category = category)
     }.cachedIn(viewModelScope)
 
-    fun selectCategory(category: String) {
-        viewModelScope.launch {
-            useCases.saveSelectedCategoryUseCase(category = category)
-        }
-    }
+
 }

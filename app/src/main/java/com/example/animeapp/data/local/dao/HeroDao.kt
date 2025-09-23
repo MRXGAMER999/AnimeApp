@@ -15,6 +15,9 @@ interface HeroDao {
     @Query("SELECT * FROM hero_table WHERE category = :category ORDER BY id ASC")
     fun getAllHeroesByCategory(category: String): PagingSource<Int, Hero>
 
+    @Query("SELECT * FROM hero_table WHERE category IN (:categories) ORDER BY id ASC")
+    fun getAllHeroesByCategories(categories: List<String>): PagingSource<Int, Hero>
+
     @Query("SELECT * FROM hero_table WHERE category = :category ORDER BY id ASC")
     suspend fun getHeroesByCategoryList(category: String): List<Hero>
 

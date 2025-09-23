@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.animeapp.domain.repository.DataStoreOperations
 import com.example.animeapp.util.Constants.PREFERENCES_KEY
@@ -23,6 +24,7 @@ class DataStoreOperationsImpl(context: Context): DataStoreOperations {
     private object PreferencesKey {
         val onBoardingKey = booleanPreferencesKey(name = PREFERENCES_KEY)
         val selectedCategoryKey = stringPreferencesKey(name = "selected_category")
+        val selectedCategoriesKey = stringSetPreferencesKey(name = "selected_categories")
     }
     private val dataStore = context.dataStore
     override suspend fun saveOnBoardingState(completed: Boolean) {
@@ -64,6 +66,27 @@ class DataStoreOperationsImpl(context: Context): DataStoreOperations {
             .map { preferences ->
                 val selectedCategory = preferences[PreferencesKey.selectedCategoryKey] ?: "Boruto"
                 selectedCategory
+            }
+    }
+
+    override suspend fun saveSelectedCategories(categories: Set<String>) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKey.selectedCategoriesKey] = categories
+        }
+    }
+
+    override fun readSelectedCategories(): Flow<Set<String>> {
+        return dataStore.data
+            .catch { exception ->
+                if (exception is IOException) {
+                    emit(emptyPreferences())
+                } else {
+                    throw exception
+                }
+            }
+            .map { preferences ->
+                val selectedCategories = preferences[PreferencesKey.selectedCategoriesKey] ?: setOf("Boruto")
+                selectedCategories
             }
     }
 }

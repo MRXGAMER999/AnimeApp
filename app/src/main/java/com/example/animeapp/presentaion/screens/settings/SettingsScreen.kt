@@ -35,6 +35,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.animeapp.ui.theme.MEDIUM_PADDING
 import com.example.animeapp.ui.theme.getThemeBasedGradient
 import org.koin.androidx.compose.koinViewModel
 
@@ -42,9 +43,11 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun SettingsScreen(
     settingsViewModel: SettingsViewModel = koinViewModel(),
-    onNavigateBack: () -> Unit = { }
+    onNavigateBack: () -> Unit = { },
+    onNavigateToSelection: () -> Unit = { }
 ){
-    val selectedCategory by settingsViewModel.selectedCategory.collectAsState()
+    val selectedCategories by settingsViewModel.selectedCategories.collectAsState()
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -65,22 +68,45 @@ fun SettingsScreen(
         Column(
             modifier = Modifier
                 .padding(paddingValues)
-                .padding(8.dp),
+                .padding(MEDIUM_PADDING),
         )   {
             SettingItem(
                 icon = Icons.Default.DarkMode,
                 title = "Appearance",
                 subtitle = "App's Theme"
             )
-            CategorySwitchItem(
-                icon = Icons.Default.Category,
-                title = "Anime Category",
-                subtitle = "Switch between Boruto and Demon Slayer",
-                selectedCategory = selectedCategory,
-                onCategoryChange = { category ->
-                    settingsViewModel.selectCategory(category)
+
+
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { onNavigateToSelection() }
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.List,
+                    contentDescription = "Multiple Categories",
+                    modifier = Modifier.size(24.dp),
+                    tint = MaterialTheme.colorScheme.onSurface
+                )
+                Spacer(Modifier.width(16.dp))
+                Column {
+                    Text(
+                        text = "Multiple Categories",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Text(
+                        text = "Select multiple anime categories (${selectedCategories.size} selected)",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+                    )
                 }
-            )
+            }
+
             SettingItem(
                 icon = Icons.Default.Info,
                 title = "About",
@@ -123,15 +149,7 @@ fun SettingsScreenPreview() {
                     title = "Appearance",
                     subtitle = "App's Theme"
                 )
-                CategorySwitchItem(
-                    icon = Icons.Default.Category,
-                    title = "Anime Category",
-                    subtitle = "Switch between Boruto and Demon Slayer",
-                    selectedCategory = selectedCategoryState.value,
-                    onCategoryChange = { category ->
-                        selectedCategoryState.value = category
-                    }
-                )
+
                 SettingItem(
                     icon = Icons.Default.Info,
                     title = "About",
@@ -142,4 +160,3 @@ fun SettingsScreenPreview() {
             }
         }
 }
-

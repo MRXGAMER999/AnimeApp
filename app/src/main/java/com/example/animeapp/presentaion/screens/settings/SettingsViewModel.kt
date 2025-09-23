@@ -18,9 +18,25 @@ class SettingsViewModel(
         initialValue = "Boruto"
     )
 
-    fun selectCategory(category: String) {
+    val selectedCategories: StateFlow<Set<String>> = useCases.readSelectedCategoriesUseCase().stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = emptySet()
+    )
+
+
+
+
+
+    fun toggleCategory(category: String) {
         viewModelScope.launch {
-            useCases.saveSelectedCategoryUseCase(category = category)
+            val currentCategories = selectedCategories.value.toMutableSet()
+            if (currentCategories.contains(category)) {
+                currentCategories.remove(category)
+            } else {
+                currentCategories.add(category)
+            }
+            useCases.saveSelectedCategoriesUseCase(categories = currentCategories)
         }
     }
 }

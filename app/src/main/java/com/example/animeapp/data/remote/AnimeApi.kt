@@ -8,7 +8,13 @@ interface AnimeApi {
     @GET("/anime/heroes")
     suspend fun getAllHeroes(
         @Query("page") page: Int,
-        @Query("category") category: String? = "Boruto"
+        @Query("category") category: String? = null
+    ): ApiResponse
+
+    @GET("/anime/heroes/categories")
+    suspend fun getAllHeroesByCategories(
+        @Query("page") page: Int,
+        @Query("categories") categories: String
     ): ApiResponse
 
     @GET("/anime/heroes/search")

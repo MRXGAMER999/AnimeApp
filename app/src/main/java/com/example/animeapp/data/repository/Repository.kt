@@ -12,7 +12,7 @@ class Repository(
     private val dataStore: DataStoreOperations,
     private val local: LocalDataSource
 ) {
-     fun getAllHeroes(category: String?): Flow<PagingData<Hero>> {
+     fun getAllHeroes(category:  Set<String>): Flow<PagingData<Hero>> {
         return remote.getAllHeroes(category = category)
 
     }
@@ -36,5 +36,13 @@ class Repository(
 
     fun readSelectedCategory(): Flow<String> {
         return dataStore.readSelectedCategory()
+    }
+
+    suspend fun saveSelectedCategories(categories: Set<String>) {
+        dataStore.saveSelectedCategories(categories = categories)
+    }
+
+    fun readSelectedCategories(): Flow<Set<String>> {
+        return dataStore.readSelectedCategories()
     }
 }

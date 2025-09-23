@@ -10,6 +10,7 @@ import com.example.animeapp.presentaion.screens.details.DetailsScreen
 import com.example.animeapp.presentaion.screens.home.HomeScreen
 import com.example.animeapp.presentaion.screens.search.SearchScreen
 import com.example.animeapp.presentaion.screens.settings.SettingsScreen
+import com.example.animeapp.presentaion.screens.settings.selectionScreen.SelectionScreen
 import com.example.animeapp.presentaion.screens.splash.SplashScreen
 import com.example.animeapp.presentaion.screens.welcome.WelcomeScreen
 import kotlinx.serialization.Serializable
@@ -31,6 +32,10 @@ object SearchScreenKey: NavKey
 
 @Serializable
 object SettingsScreenKey: NavKey
+
+@Serializable
+object SelectionScreenKey: NavKey
+
 
 
 @Composable
@@ -117,9 +122,25 @@ fun NavigationRoot(
                     NavEntry(
                         key = key,
                     ) {
-                        SettingsScreen(onNavigateBack = {
-                            backStack.remove(SettingsScreenKey)
-                        })
+                        SettingsScreen(
+                            onNavigateBack = {
+                                backStack.remove(SettingsScreenKey)
+                            },
+                            onNavigateToSelection = {
+                                backStack.add(SelectionScreenKey)
+                            }
+                        )
+                    }
+                }
+                is SelectionScreenKey -> {
+                    NavEntry(
+                        key = key,
+                    ) {
+                        SelectionScreen(
+                            onNavigateBack = {
+                                backStack.remove(key)
+                            }
+                        )
                     }
                 }
                 else -> error("Unknown key: $key")

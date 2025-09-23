@@ -26,8 +26,6 @@ fun HomeScreen(onNavigateToSearch: () -> Unit = { },
     val homeViewModel: HomeViewModel = koinViewModel()
     val allHeroes = homeViewModel.getAllHeroes.collectAsLazyPagingItems()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-    val categories = listOf("Boruto", "Demon Slayer")
-
     Box(
         modifier = Modifier
             .fillMaxSize()
