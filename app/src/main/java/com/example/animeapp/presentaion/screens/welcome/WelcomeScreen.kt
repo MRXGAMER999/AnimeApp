@@ -1,6 +1,7 @@
 package com.example.animeapp.presentaion.screens.welcome
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -23,6 +24,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -76,14 +78,18 @@ fun WelcomeScreen(onNavigateToHome: () -> Unit){
             horizontalArrangement = Arrangement.Center
         ) {
             repeat(pagerState.pageCount) { iteration ->
-                val color = if (pagerState.currentPage == iteration) Color.Black else Color.White
-                Box(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .clip(CircleShape)
-                        .background(color)
-                        .size(20.dp)
-                )
+
+                val animatedColor by animateColorAsState(if (pagerState.currentPage == iteration) Color.Black
+                else Color.White)
+                    Box(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .clip(CircleShape)
+                            .background(color = animatedColor)
+                            .size(20.dp)
+                    )
+
+
             }
         }
          FinishButton(

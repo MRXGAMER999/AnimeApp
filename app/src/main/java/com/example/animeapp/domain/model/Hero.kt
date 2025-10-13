@@ -1,10 +1,11 @@
 package com.example.animeapp.domain.model
 
+import androidx.compose.runtime.Immutable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.animeapp.util.Constants.HERO_DATABASE_TABLE
 import kotlinx.serialization.Serializable
-
+@Immutable
 @Serializable
 @Entity(tableName = HERO_DATABASE_TABLE)
 data class Hero(

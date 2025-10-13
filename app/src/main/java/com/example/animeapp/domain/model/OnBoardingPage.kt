@@ -1,8 +1,9 @@
 package com.example.animeapp.domain.model
 
 import androidx.annotation.DrawableRes
+import androidx.compose.runtime.Immutable
 import com.example.animeapp.R
-
+@Immutable
 sealed class OnBoardingPage(
     @DrawableRes
     val image: Int,
