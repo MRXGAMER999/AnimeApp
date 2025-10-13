@@ -7,6 +7,7 @@ import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import com.example.animeapp.presentaion.screens.details.DetailsScreen
+import com.example.animeapp.presentaion.screens.favorites.FavoritesScreen
 import com.example.animeapp.presentaion.screens.home.HomeScreen
 import com.example.animeapp.presentaion.screens.search.SearchScreen
 import com.example.animeapp.presentaion.screens.settings.SettingsScreen
@@ -29,6 +30,9 @@ data class DetailsScreenKey(val heroId: Int): NavKey
 
 @Serializable
 object SearchScreenKey: NavKey
+
+@Serializable
+object FavoritesScreenKey: NavKey
 
 @Serializable
 object SettingsScreenKey: NavKey
@@ -88,6 +92,9 @@ fun NavigationRoot(
                             },
                             onNavigateToSettings = {
                                 backStack.add(SettingsScreenKey)
+                            },
+                            onNavigateToFavorites = {
+                                backStack.add(FavoritesScreenKey)
                             }
                         )
                     }
@@ -111,6 +118,20 @@ fun NavigationRoot(
                         SearchScreen(
                             onBackToHomeScreen = {
                                 backStack.remove(SearchScreenKey)
+                            },
+                            onHeroClick = { heroId: Int ->
+                                backStack.add(DetailsScreenKey(heroId))
+                            }
+                        )
+                    }
+                }
+                is FavoritesScreenKey -> {
+                    NavEntry(
+                        key = key,
+                    ) {
+                        FavoritesScreen(
+                            onNavigateBack = {
+                                backStack.remove(FavoritesScreenKey)
                             },
                             onHeroClick = { heroId: Int ->
                                 backStack.add(DetailsScreenKey(heroId))

@@ -22,6 +22,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun HomeScreen(onNavigateToSearch: () -> Unit = { },
                onNavigateToSettings: () -> Unit = { },
+               onNavigateToFavorites: () -> Unit = { },
                onHeroClick: (Int) -> Unit ){
     val homeViewModel: HomeViewModel = koinViewModel()
     val allHeroes = homeViewModel.getAllHeroes.collectAsLazyPagingItems()
@@ -40,6 +41,9 @@ fun HomeScreen(onNavigateToSearch: () -> Unit = { },
                 HomeTopBar(scrollBehavior = scrollBehavior,
                     onSearchClick = {
                         onNavigateToSearch()
+                    },
+                    onFavoritesClick = {
+                        onNavigateToFavorites()
                     },
                     onSettingsClick = {
                         onNavigateToSettings()

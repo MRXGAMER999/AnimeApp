@@ -50,7 +50,8 @@ fun SearchTopBar(
                 onQueryChange = onSearchQueryChange,
                 onSearch = {
                     expanded = false
-                    onSearched() },
+                    onSearched()
+                },
                 expanded = expanded,
                 onExpandedChange = { expanded = it },
                 placeholder = {

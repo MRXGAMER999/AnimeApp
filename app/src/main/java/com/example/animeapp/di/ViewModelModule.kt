@@ -1,6 +1,7 @@
 package com.example.animeapp.di
 
 import com.example.animeapp.presentaion.screens.details.DetailsViewModel
+import com.example.animeapp.presentaion.screens.favorites.FavoritesViewModel
 import com.example.animeapp.presentaion.screens.home.HomeViewModel
 import com.example.animeapp.presentaion.screens.search.SearchViewModel
 import com.example.animeapp.presentaion.screens.settings.SettingsViewModel
@@ -14,6 +15,7 @@ val viewModelModule = module {
     viewModel { SplashViewModel(get()) }
     viewModel { HomeViewModel(get()) }
     viewModel { SearchViewModel(get()) }
+    viewModel { FavoritesViewModel(get()) }
     viewModel { SettingsViewModel(get()) }
     viewModel { (heroId: Int) ->
         DetailsViewModel(

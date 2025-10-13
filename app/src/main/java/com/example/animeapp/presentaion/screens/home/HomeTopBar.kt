@@ -2,8 +2,10 @@ package com.example.animeapp.presentaion.screens.home
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -28,6 +30,7 @@ import com.example.animeapp.ui.theme.getThemeBasedTopAppBarColors
 fun HomeTopBar(
     scrollBehavior: TopAppBarScrollBehavior,
     onSearchClick: () -> Unit = { },
+    onFavoritesClick: () -> Unit = { },
     onSettingsClick: () -> Unit = { }
 ) {
     TopAppBar(
@@ -48,6 +51,16 @@ fun HomeTopBar(
                     modifier = Modifier.size(28.dp),
                     imageVector = Icons.Outlined.Search,
                     contentDescription = "Search",
+                    tint = MaterialTheme.colorScheme.onSurface
+                )
+            }
+            IconButton(onClick = {
+                onFavoritesClick()
+            }) {
+                Icon(
+                    modifier = Modifier.size(28.dp),
+                    imageVector = Icons.Outlined.FavoriteBorder,
+                    contentDescription = "Favorites",
                     tint = MaterialTheme.colorScheme.onSurface
                 )
             }

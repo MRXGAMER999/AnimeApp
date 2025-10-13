@@ -38,4 +38,25 @@ class Repository(
     fun readSelectedCategories(): Flow<Set<String>> {
         return dataStore.readSelectedCategories()
     }
+
+    // Favorite operations
+    fun getAllFavoriteHeroes(): Flow<List<Hero>> {
+        return local.getAllFavoriteHeroes()
+    }
+
+    fun isFavorite(heroId: Int): Flow<Boolean> {
+        return local.isFavorite(heroId)
+    }
+
+    suspend fun addFavorite(heroId: Int) {
+        local.addFavorite(heroId)
+    }
+
+    suspend fun removeFavorite(heroId: Int) {
+        local.removeFavorite(heroId)
+    }
+
+    suspend fun toggleFavorite(heroId: Int) {
+        local.toggleFavorite(heroId)
+    }
 }

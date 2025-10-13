@@ -18,7 +18,6 @@ class SearchViewModel(
     private val _searchQuery = mutableStateOf("")
     val searchQuery: State<String> = _searchQuery
 
-
     private val _searchedHeroes = MutableStateFlow<PagingData<Hero>>(PagingData.empty())
     val searchedHeroes = _searchedHeroes
 

@@ -5,6 +5,7 @@ object Constants {
     const val BASE_URL = "http://192.168.1.2:8080"
     const val HERO_DATABASE_TABLE = "hero_table"
     const val HERO_REMOTE_KEYS_DATABASE_TABLE = "hero_remote_keys_table"
+    const val FAVORITE_HERO_DATABASE_TABLE = "favorite_hero_table"
     const val ANIME_DATABASE = "anime_database"
     const val DETAILS_ARGUMENT_KEY = "heroId"
     const val ON_BOARDING_PAGE_COUNT = 3

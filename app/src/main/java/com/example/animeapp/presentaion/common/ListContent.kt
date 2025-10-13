@@ -16,13 +16,22 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -37,6 +46,7 @@ import coil.compose.AsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
 import com.example.animeapp.R
+import com.example.animeapp.data.use_cases.UseCases
 import com.example.animeapp.domain.model.Hero
 import com.example.animeapp.presentaion.componenets.ShimmerEffect
 import com.example.animeapp.presentaion.componenets.SimpleRatingWidget
@@ -46,6 +56,8 @@ import com.example.animeapp.ui.theme.LARGE_PADDING
 import com.example.animeapp.ui.theme.MEDIUM_PADDING
 import com.example.animeapp.ui.theme.SMALL_PADDING
 import com.example.animeapp.util.Constants.BASE_URL
+import kotlinx.coroutines.launch
+import org.koin.compose.koinInject
 
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -67,9 +79,10 @@ fun ListContent(
                 key = heroes.itemKey { it.id }
             ) { index ->
                 heroes[index]?.let { hero ->
-                    HeroItem(hero = hero){
-                        onHeroClick(hero.id)
-                    }
+                    HeroItem(
+                        hero = hero,
+                        onClick = { onHeroClick(hero.id) }
+                    )
                 }
             }
         }
@@ -111,8 +124,11 @@ fun handlePagingResult(
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun HeroItem(hero: Hero,
-             onHeroClick: () -> Unit = { }){
+fun HeroItem(
+    hero: Hero,
+    onClick: () -> Unit = { },
+    useCases: UseCases = koinInject()
+){
     val isDarkTheme = isSystemInDarkTheme()
     val placeholderRes = if (isDarkTheme) {
         R.drawable.placeholder_dark
@@ -120,11 +136,14 @@ fun HeroItem(hero: Hero,
         R.drawable.placeholder_light
     }
     
+    val isFavorite by useCases.isFavoriteUseCase(hero.id).collectAsState(initial = false)
+    val coroutineScope = rememberCoroutineScope()
+
     Box(
         modifier = Modifier
             .height(HERO_ITEM_HEIGHT)
             .clickable {
-                onHeroClick()
+                onClick()
             },
         contentAlignment = Alignment.BottomStart
     ){
@@ -138,12 +157,31 @@ fun HeroItem(hero: Hero,
                     .memoryCachePolicy(CachePolicy.ENABLED)
                     .diskCachePolicy(CachePolicy.ENABLED)
                     .crossfade(300)
+                    .placeholderMemoryCacheKey(hero.id.toString())
                     .build()
                 ,
                 contentDescription = hero.name,
                 contentScale = ContentScale.Crop,
                 placeholder = painterResource(id = placeholderRes),
                 error = painterResource(id = placeholderRes)
+            )
+        }
+
+        // Favorite button in top-right corner
+        IconButton(
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(8.dp),
+            onClick = {
+                coroutineScope.launch {
+                    useCases.toggleFavoriteUseCase(hero.id)
+                }
+            }
+        ) {
+            Icon(
+                imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
+                contentDescription = if (isFavorite) "Remove from favorites" else "Add to favorites",
+                tint = if (isFavorite) Color.Red else Color.White
             )
         }
 
@@ -296,4 +334,3 @@ fun HeroItemDarkPreview() {
         )
     }
 }
-
